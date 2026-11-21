@@ -48,51 +48,27 @@
     });
   });
 
-  // Instagram activity portfolio: four previews, full local gallery, photo viewer.
+  // Curated field portfolio: reveal four records per click, never all at once.
   const galleryCards = [...document.querySelectorAll('[data-gallery-card]')];
   const galleryToggle = document.querySelector('#gallery-toggle');
-  const galleryYearFilter = document.querySelector('#gallery-year-filter');
-  const galleryYearButtons = [...document.querySelectorAll('[data-gallery-year-button]')];
-  const previewCount = 4;
   if (galleryToggle && galleryCards.length) {
-    let expanded = false;
-    let activeYear = 'all';
+    let visibleCount = 4;
     const renderGallery = () => {
-      let visibleCount = 0;
-      galleryCards.forEach((card, i) => {
-        const show = (!expanded && i < previewCount) ||
-          (expanded && (activeYear === 'all' || card.dataset.galleryYear === activeYear));
+      galleryCards.forEach((card, index) => {
+        const show = index < visibleCount;
         card.hidden = !show;
-        if (show) {
-          visibleCount++;
-          card.classList.add('is-visible');
-        }
+        if (show) card.classList.add('is-visible');
       });
-      galleryToggle.setAttribute('aria-expanded', String(expanded));
-      galleryToggle.querySelector('span:first-child').textContent = expanded ? '접기' : '전체 활동 보기';
-      galleryToggle.querySelector('small').textContent = visibleCount + ' / ' + galleryCards.length;
-      galleryToggle.querySelector('.gallery-toggle-icon').textContent = expanded ? '↑' : '↓';
-      galleryToggle.hidden = galleryCards.length <= previewCount;
-      if (galleryYearFilter) galleryYearFilter.hidden = !expanded;
-      galleryYearButtons.forEach((button) => {
-        const selected = button.dataset.galleryYearButton === activeYear;
-        button.classList.toggle('is-active', selected);
-        button.setAttribute('aria-pressed', String(selected));
-      });
+      galleryToggle.hidden = visibleCount >= galleryCards.length;
+      galleryToggle.setAttribute('aria-expanded', String(visibleCount > 4));
+      const label = galleryToggle.querySelector('span:first-child');
+      if (label) label.textContent = '4개 더보기';
+      const counter = galleryToggle.querySelector('small');
+      if (counter) counter.textContent = Math.min(visibleCount, galleryCards.length) + ' / ' + galleryCards.length;
     };
     galleryToggle.addEventListener('click', () => {
-      expanded = !expanded;
-      if (!expanded) activeYear = 'all';
+      visibleCount = Math.min(visibleCount + 4, galleryCards.length);
       renderGallery();
-      if (!expanded) document.querySelector('.field-intro')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-    galleryYearButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        expanded = true;
-        activeYear = button.dataset.galleryYearButton;
-        renderGallery();
-        galleryYearFilter?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
     });
     renderGallery();
   }
@@ -141,6 +117,11 @@
     document.querySelector('#photo-dialog-title').textContent = post.title;
     document.querySelector('#photo-dialog-meta').textContent = post.date + ' · ' + post.category;
     document.querySelector('#photo-dialog-summary').textContent = post.summary;
+    const sourceLink = document.querySelector('#photo-dialog-source');
+    if (sourceLink) {
+      sourceLink.hidden = !/^https:\/\/www\.instagram\.com\/p\/[A-Za-z0-9_-]+\/$/.test(post.source || '');
+      if (!sourceLink.hidden) sourceLink.href = post.source;
+    }
     const captionWrap = document.querySelector('#photo-dialog-caption-wrap');
     captionWrap.hidden = !post.caption;
     document.querySelector('#photo-dialog-caption').textContent = post.caption || '';
