@@ -1,3 +1,11 @@
+/* Resume timeline styles consolidated from former standalone profile stylesheet. */
+.profile-timeline{margin:0;list-style:none;padding:0;display:grid;gap:0}
+.profile-timeline li{display:grid;grid-template-columns:124px minmax(0,1fr);gap:19px;padding:20px 0;border-bottom:1px solid #dfe5da;font-size:14px}
+.profile-timeline li:first-child{border-top:1px solid #dfe5da}
+.profile-timeline .when{color:#53765e;font-family:var(--en);font-weight:700}
+.profile-timeline strong{display:block;color:#304d3b;font-size:15px;line-height:1.65}
+.profile-timeline span{display:block;color:#65746a;font-size:13px}
+
 /* Homepage interwoven resume modules — 2026-11-21 */
 .home-resume-group{margin-top:65px;border-top:1px solid #dce3d8;padding-top:40px}
 .home-resume-head{display:flex;align-items:end;justify-content:space-between;gap:32px;margin-bottom:28px}
@@ -62,3 +70,8 @@
 .home-research-block,.director-section>.home-academic-block{width:calc(100% - 40px)}
 .home-resume-head h3{font-size:29px}
 }
+
+.activity-source-note{display:block;margin-top:auto;padding-top:13px;color:#718574;font-size:11px;font-weight:600}
+.publication-section .home-research-block{border-top:1px solid #c9d9c8;padding-top:52px;padding-bottom:86px}
+.director-education-link{margin-top:14px}
+@media(max-width:760px){.publication-section .home-research-block{padding-top:36px;padding-bottom:55px}}

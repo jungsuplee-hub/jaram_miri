@@ -43,6 +43,7 @@ def page_head(home):
  head=head.replace('자람원예치료연구소 | 식물이 자라는 시간, 마음도 함께 자랍니다','원예치료 프로그램별 활동 사진 | 자람원예치료연구소')
  head=head.replace('<title>자람원예치료연구소 | JARAM Horticultural Therapy</title>','<title>프로그램별 실제 활동 사진 | 자람원예치료연구소</title>')
  head=head.replace('https://jungsuplee-hub.github.io/jaram_miri/"','https://jungsuplee-hub.github.io/jaram_miri/activities.html"')
+ head=head.replace('  <link rel="stylesheet" href="main-profile.css?v=20261121-2">\n','')
  head=head.replace('href="styles.css"','href="styles.css"')
  head=head.replace('gallery.css?v=20261121-5','gallery.css?v=20261121-7')
  head=head.replace('script.js?v=20261121-5','script.js?v=20261121-7')
