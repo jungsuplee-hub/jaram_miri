@@ -45,8 +45,6 @@
 .home-research-caption{font-size:13px;line-height:1.9;color:#6b7e6e;padding:15px 0 0;margin-top:14px}
 .director-section>.home-academic-block{width:min(1200px,calc(100% - 96px));margin:60px auto 0;padding-top:35px}
 .home-academic-block .home-resume-panel{background:#f9faf4}
-.home-planned-note{border-left:3px solid #b4c6b1;margin:20px 0 5px;padding:12px 16px;background:#f0f3e9;font-size:12px;line-height:1.9;color:#607564}
-.home-planned-note strong{color:#375b43}
 #director{scroll-margin-top:85px}
 @media(max-width:1100px){
 .home-research-block,.director-section>.home-academic-block{width:min(calc(100% - 64px),1120px)}
