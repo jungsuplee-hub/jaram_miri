@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jungsuplee-hub.github.io/jaram_miri/sitemap.xml
