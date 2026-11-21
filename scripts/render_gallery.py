@@ -16,6 +16,9 @@ GROUPS=[
  ('치매·인지지원','치매 예방·인지지원','치매안심센터와 인지활동 연계 프로그램'),
  ('어르신 원예활동','어르신 원예활동','어르신 반려식물·가드닝 프로그램'),
  ('직장인 정서지원','직장인 정서지원','직무스트레스 관리와 감정노동자 마음돌봄 프로그램'),
+ ('아동·청소년 원예교육','아동·청소년 원예교육','학교·Wee클래스·교육지원청·아동시설 원예교육 프로그램'),
+ ('가족·지역사회 원예교육','가족·지역사회 원예교육','가족 참여와 주민 대상의 원예교육·체험 활동'),
+ ('강사·전문인력 교육','전문인력 양성·강연','강사 양성과정·워크숍·교수 및 강연 현장'),
  ('원예치료','기타 원예치료','활동 기록으로 확인되는 원예치료 현장'),
 ]
 
@@ -118,7 +121,7 @@ def main():
    <a class="archive-back" href="index.html#activities">← 연구소 소개로 돌아가기</a>
    <div class="archive-hero-grid"><div><span class="archive-overline">JARAM · PROGRAM ARCHIVE</span>
    <h1>식물과 함께한<br><em>모든 현장의 기록.</em></h1>
-   <p>자람원예치료연구소가 공개한 활동 중 프로그램의 대상과 현장 내용이 확인되는 사례를 엄선했습니다. 학교 교육·강사 양성·일상 사진은 이 갤러리에서 제외했습니다.</p>
+   <p>자람원예치료연구소가 공개한 활동 중 프로그램의 대상과 현장 내용이 확인되는 사례를 엄선했습니다. 장애인·어르신 원예치료와 학교·아동청소년 원예교육, 전문인력 교육을 포함하되 개인 일상·단순 모집 공지 등은 제외했습니다.</p>
    </div><div class="archive-hero-stat"><span>ACTIVITY ARCHIVE</span><strong>'''+str(len(posts))+'''</strong><small>선별된 실제 활동 기록 · '''+str(sum(len(p['images']) for p in posts))+'''장의 사진</small></div></div>
  </div></section>
  <section class="archive-content container" aria-labelledby="archive-content-title">

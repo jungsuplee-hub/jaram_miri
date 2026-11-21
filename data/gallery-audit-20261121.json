@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-21",
+  "profile": "@jaram_miri",
+  "source_profile": "https://www.instagram.com/jaram_miri/",
+  "public_mirror": "https://ins.ninja/@jaram_miri",
+  "public_post_cards_checked": 2470,
+  "original_records": 227,
+  "first_stage_candidates": 599,
+  "second_stage_candidates": 464,
+  "photo_exclusions_after_download": 24,
+  "new_photo_records": 440,
+  "final_records": 667,
+  "final_images": 670,
+  "by_category": {
+    "어르신 돌봄": 88,
+    "장애인 원예치료": 167,
+    "아동·청소년 원예교육": 238,
+    "치매·인지지원": 44,
+    "강사·전문인력 교육": 30,
+    "원예치료": 73,
+    "가족·지역사회 원예교육": 3,
+    "어르신 원예활동": 21,
+    "직장인 정서지원": 3
+  },
+  "by_year": {
+    "2018": 26,
+    "2019": 104,
+    "2020": 99,
+    "2021": 120,
+    "2022": 135,
+    "2023": 104,
+    "2024": 71,
+    "2025": 2,
+    "2026": 6
+  },
+  "method": "Scanned publicly visible post cards and captions, excluded duplicates, non-program personal posts, notices, preparation shots, and visibly mismatched samples; validated image decoding and retained the source URL per card.",
+  "limitations": "Public mirror snapshot only; does not establish access to deleted/private posts. Visual manual review was sampled, not a separate inspection of each of the 2470 posts. New photographs represent public post covers, not every image in every Instagram carousel."
+}
