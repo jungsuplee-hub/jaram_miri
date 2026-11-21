@@ -348,3 +348,12 @@ html.js .reveal.is-visible{opacity:1;transform:translateY(0)}
 .book-links .inline-link{gap:9px}
 .book-links .inline-link:hover{gap:16px}
 @media(max-width:640px){.real-book-cover{width:242px}.book-links{gap:20px}.book-features{gap:23px}.book-features strong{font-size:27px}.publication-art{min-height:465px}}
+
+/* Official logo from @jaram_miri */
+.brand-mark{width:55px;height:55px}
+.brand-mark img{width:54px;height:54px;border-radius:50%;object-fit:contain}
+.hero-sticker{padding:0;overflow:hidden;animation:none;background:white}
+.hero-sticker img{display:block;width:100%;height:100%;object-fit:contain;border-radius:50%}
+.footer-brand{display:inline-flex;align-items:center;gap:12px}
+.footer-brand img{width:43px;height:43px;border-radius:50%}
+@media(max-width:640px){.brand-mark{width:45px;height:45px}.brand-mark img{width:45px;height:45px}}

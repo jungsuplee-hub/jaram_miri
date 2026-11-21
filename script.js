@@ -31,6 +31,23 @@
     });
   }
 
+  // Filter only verifiable activity records, without hiding sources.
+  const filterButtons = [...document.querySelectorAll('.activity-filter')];
+  const records = [...document.querySelectorAll('.activity-card[data-type]')];
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+      filterButtons.forEach((candidate) => {
+        const selected = candidate === button;
+        candidate.classList.toggle('is-active', selected);
+        candidate.setAttribute('aria-pressed', String(selected));
+      });
+      records.forEach((card) => {
+        card.hidden = filter !== 'all' && card.dataset.type !== filter;
+      });
+    });
+  });
+
   const year = document.querySelector('#year');
   if (year) year.textContent = String(new Date().getFullYear());
 
