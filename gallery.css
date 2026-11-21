@@ -267,3 +267,30 @@
  .business-card-person-name span{font-size:10px}
  .business-card-contact strong{font-size:12px}
 }
+
+/* Filter a large verified gallery by year without loading external imagery. */
+.gallery-year-filter[hidden]{display:none!important}
+.gallery-year-filter{
+  display:flex;align-items:center;flex-wrap:wrap;gap:9px;
+  padding:16px 18px;margin:4px 0 24px;
+  background:#f3f6ef;border:1px solid #e2eadd;
+}
+.gallery-year-label{font-size:11px;font-weight:700;color:#6f8875;margin-right:11px;white-space:nowrap}
+.gallery-year-button{
+  display:inline-flex;align-items:center;gap:7px;
+  background:#fff;border:1px solid #d8e3d6;color:#607e65;
+  font:700 12px var(--sans);padding:9px 13px;cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.gallery-year-button span{font:600 10px var(--en);opacity:.75}
+.gallery-year-button:hover{border-color:#8caa8d;color:#365c3c}
+.gallery-year-button.is-active{background:#254d3b;color:white;border-color:#254d3b}
+@media(max-width:640px){
+ .gallery-year-filter{
+   flex-wrap:nowrap;gap:7px;margin:0 -3px 20px;padding:12px 8px;
+   max-width:calc(100% + 6px);overflow-x:auto;
+   -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+ }
+ .gallery-year-label{font-size:10px;flex:0 0 auto;margin-right:3px}
+ .gallery-year-button{flex:0 0 auto;white-space:nowrap;padding:9px 11px;font-size:11px}
+}

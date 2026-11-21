@@ -51,27 +51,48 @@
   // Instagram activity portfolio: four previews, full local gallery, photo viewer.
   const galleryCards = [...document.querySelectorAll('[data-gallery-card]')];
   const galleryToggle = document.querySelector('#gallery-toggle');
+  const galleryYearFilter = document.querySelector('#gallery-year-filter');
+  const galleryYearButtons = [...document.querySelectorAll('[data-gallery-year-button]')];
   const previewCount = 4;
   if (galleryToggle && galleryCards.length) {
     let expanded = false;
+    let activeYear = 'all';
     const renderGallery = () => {
+      let visibleCount = 0;
       galleryCards.forEach((card, i) => {
-        const show = expanded || i < previewCount;
+        const show = (!expanded && i < previewCount) ||
+          (expanded && (activeYear === 'all' || card.dataset.galleryYear === activeYear));
         card.hidden = !show;
-        if (show) card.classList.add('is-visible');
+        if (show) {
+          visibleCount++;
+          card.classList.add('is-visible');
+        }
       });
       galleryToggle.setAttribute('aria-expanded', String(expanded));
       galleryToggle.querySelector('span:first-child').textContent = expanded ? '접기' : '전체 활동 보기';
-      galleryToggle.querySelector('small').textContent =
-        (expanded ? galleryCards.length : Math.min(galleryCards.length, previewCount)) +
-        ' / ' + galleryCards.length;
+      galleryToggle.querySelector('small').textContent = visibleCount + ' / ' + galleryCards.length;
       galleryToggle.querySelector('.gallery-toggle-icon').textContent = expanded ? '↑' : '↓';
       galleryToggle.hidden = galleryCards.length <= previewCount;
+      if (galleryYearFilter) galleryYearFilter.hidden = !expanded;
+      galleryYearButtons.forEach((button) => {
+        const selected = button.dataset.galleryYearButton === activeYear;
+        button.classList.toggle('is-active', selected);
+        button.setAttribute('aria-pressed', String(selected));
+      });
     };
     galleryToggle.addEventListener('click', () => {
       expanded = !expanded;
+      if (!expanded) activeYear = 'all';
       renderGallery();
       if (!expanded) document.querySelector('.field-intro')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    galleryYearButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        expanded = true;
+        activeYear = button.dataset.galleryYearButton;
+        renderGallery();
+        galleryYearFilter?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     });
     renderGallery();
   }
