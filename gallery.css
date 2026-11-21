@@ -1,0 +1,269 @@
+/* Local portfolio and lightbox — no social-media redirect required */
+.field-card[hidden],
+.photo-fallback[hidden],
+.photo-dialog-caption-wrap[hidden],
+.photo-dialog-arrow[hidden],
+.photo-dialog-error[hidden],
+.photo-dialog-image[hidden],
+.gallery-show-more[hidden] { display:none !important; }
+
+.field-gallery { align-items:stretch; }
+.field-photo {
+  display:block;
+  width:100%;
+  padding:0;
+  border:0;
+  cursor:zoom-in;
+  color:inherit;
+  appearance:none;
+  text-align:left;
+  background:#e6eadf;
+}
+.field-photo img { display:block;width:100%;height:100%;object-fit:cover; }
+.field-photo .photo-photo-overlay {
+  position:absolute;
+  bottom:13px;
+  left:13px;
+  color:#275036;
+  background:rgba(254,253,249,.93);
+  border-radius:2px;
+  padding:8px 12px;
+  font-size:11px;
+  font-weight:700;
+  line-height:1.35;
+  letter-spacing:0;
+  transition:background .2s;
+}
+.field-photo:hover .photo-photo-overlay { background:#fff; }
+.field-detail-button {
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  border:0; border-top:1px solid #dbe6d7; border-radius:0;
+  padding:12px 0 0; margin-top:auto; width:100%;
+  background:transparent; text-align:left; color:#4e7654;
+  font:700 11px var(--sans);cursor:pointer;transition:color .2s;
+}
+.field-detail-button:hover { color:#1f4830; }
+.field-detail-button span { font-size:17px; }
+.field-photo:focus-visible,.field-detail-button:focus-visible {
+  outline:3px solid #95b89b;
+  outline-offset:3px;
+}
+.gallery-controls { display:flex; justify-content:center;margin:-26px 0 79px; }
+.gallery-show-more {
+  display:inline-flex;align-items:center;justify-content:center;gap:16px;
+  min-width:235px;min-height:56px;
+  border:1px solid #73977a;background:#fff;
+  color:#315c42;padding:13px 24px;cursor:pointer;
+  font:700 13px var(--sans);
+  transition:background .2s,color .2s,transform .2s;
+}
+.gallery-show-more:hover { background:#eef3e9;transform:translateY(-2px); }
+.gallery-show-more small { font:600 11px var(--en);color:#829b83; }
+.gallery-toggle-icon { font-size:19px;font-weight:400; }
+.photo-fallback { display:block; padding:18px;text-align:center;font-size:12px;color:#58735c;background:#edf1e8; }
+.photo-open { cursor:zoom-in !important; }
+.kit-photo-main,.kit-photo-detail {
+  padding:0;outline-offset:4px;appearance:none;
+}
+.kit-photo-main:focus-visible,.kit-photo-detail:focus-visible { outline:3px solid #9bbb97; }
+.kit-post-link {
+  appearance:none;background:transparent;border:0;border-bottom:1px solid #9cb59b;
+  padding:0 0 4px;cursor:pointer;font-family:var(--sans);
+}
+.story-image.photo-open { border:0;padding:0;appearance:none;display:block;text-align:left;width:100%; }
+.story-image.photo-open img {display:block;width:100%;height:100%;object-fit:cover;}
+.about-photo-strip.photo-open {
+  display:block; width:100%;border:0;padding:0;text-align:left;
+  font-family:inherit;appearance:none;cursor:zoom-in;
+}
+.about-photo-strip.photo-open img {width:100%;height:100%;object-fit:cover;}
+.about-photo-strip .photo-label {pointer-events:none;}
+
+.photo-dialog {
+  box-sizing:border-box;position:fixed;inset:0;margin:auto;
+  width:min(1080px,calc(100vw - 40px));max-width:none;
+  max-height:calc(100dvh - 48px);
+  padding:0;border:0;border-radius:8px;
+  background:#fffdf8;color:#234530;
+  box-shadow:0 26px 90px rgba(0,0,0,.26);
+  overflow:hidden;
+}
+.photo-dialog::backdrop { background:rgba(17,31,22,.78);backdrop-filter:blur(4px); }
+.photo-dialog-shell {
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(285px,.85fr);
+  height:min(740px,calc(100dvh - 48px));
+  overflow:hidden;
+}
+.photo-dialog-close {
+  position:absolute;right:14px;top:12px;z-index:5;
+  display:grid;place-items:center;width:42px;height:42px;
+  background:#fff;border:1px solid rgba(40,70,47,.15);border-radius:50%;
+  font:400 30px/1 Arial,sans-serif;color:#2d563c;
+  cursor:pointer;box-shadow:0 2px 12px rgba(20,40,26,.09);
+}
+.photo-dialog-close:hover { background:#e8f0e2; }
+.photo-dialog-stage {
+  display:flex;position:relative;justify-content:center;align-items:center;
+  min-width:0;min-height:0;
+  background:#1d3226;
+  overflow:hidden;
+}
+.photo-dialog-image { display:block;max-width:100%;max-height:100%;width:100%;height:100%;object-fit:contain; }
+.photo-dialog-error { margin:0;max-width:300px;padding:25px;color:#e5eee4;font-size:13px;text-align:center; }
+.photo-dialog-arrow {
+  position:absolute;z-index:2;top:50%;transform:translateY(-50%);
+  display:grid;place-items:center;width:42px;height:52px;
+  padding:0;border:0;background:rgba(248,249,244,.9);
+  color:#264932;font:400 38px/1 Georgia,serif;cursor:pointer;
+}
+.photo-dialog-arrow:hover {background:white;}
+.photo-dialog-prev {left:9px;}
+.photo-dialog-next {right:9px;}
+.photo-dialog-count {
+  position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+  color:white;background:rgba(18,30,23,.7);border-radius:999px;
+  padding:4px 15px;font:600 12px var(--en);letter-spacing:.7px;
+}
+.photo-dialog-info {
+  min-width:0;padding:70px 31px 30px;overflow-y:auto;
+  overscroll-behavior:contain;scrollbar-gutter:stable;
+}
+.photo-dialog-meta {font:700 11px var(--sans);color:#799a7c;letter-spacing:.2px;}
+.photo-dialog-info h3 {font:700 26px/1.55 var(--serif);letter-spacing:-.9px;color:#2e513c;margin:15px 0 19px;word-break:keep-all;}
+.photo-dialog-info>p {font-size:13px;line-height:2;color:#637a66;margin:0 0 26px;word-break:keep-all;}
+.photo-dialog-caption-wrap {padding-top:20px;border-top:1px solid #e0e8dc;}
+.photo-dialog-subtitle {font:700 11px var(--sans);color:#557c5a;letter-spacing:.3px;}
+.photo-dialog-caption {color:#58725b;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9;font-size:12px;margin:15px 0 0;}
+@media (max-width:850px){
+  .photo-dialog-shell {grid-template-columns:minmax(0,1.1fr) minmax(240px,.9fr);}
+  .photo-dialog-info {padding:64px 23px 24px;}
+  .photo-dialog-info h3 {font-size:22px;}
+}
+@media (max-width:700px){
+  .field-card {display:grid;grid-template-columns:1fr;min-height:0;}
+  .field-photo {height:230px;min-height:230px;}
+  .field-info {min-height:0;padding:19px 20px 21px;}
+  .field-info h4 {font-size:20px;margin:9px 0 10px;}
+  .field-info p {font-size:12px;margin-bottom:16px;line-height:1.85;}
+  .field-detail-button {font-size:12px;}
+  .gallery-controls {margin:-24px 0 58px;}
+  .gallery-show-more {min-width:200px;min-height:53px;}
+  .photo-dialog {
+    inset:0;margin:0;width:100vw;height:100dvh;max-height:100dvh;
+    border-radius:0;
+  }
+  .photo-dialog-shell {display:flex;flex-direction:column;height:100dvh;max-height:100dvh;}
+  .photo-dialog-stage {height:51dvh;min-height:0;flex:0 0 51dvh;}
+  .photo-dialog-image {max-height:51dvh;}
+  .photo-dialog-info {
+    flex:1;max-height:none;padding:24px 24px calc(26px + env(safe-area-inset-bottom));
+    overflow-y:auto;
+  }
+  .photo-dialog-info h3 {font-size:24px;margin:9px 0 12px;}
+  .photo-dialog-info>p {font-size:13px;margin-bottom:18px;}
+  .photo-dialog-close {top:calc(9px + env(safe-area-inset-top));right:12px;}
+  .photo-dialog-arrow {width:36px;height:48px;font-size:33px;}
+  .photo-dialog-prev {left:4px;}
+  .photo-dialog-next {right:4px;}
+  .photo-dialog-count {bottom:11px;}
+  .photo-dialog-caption {font-size:12px;}
+  .story-image.photo-open {display:block;}
+}
+@media (max-width:390px){
+  .field-photo {height:205px;min-height:205px;}
+  .field-info h4 {font-size:19px;}
+  .photo-dialog-stage {height:45dvh;flex-basis:45dvh;}
+  .photo-dialog-image {max-height:45dvh;}
+}
+@media (prefers-reduced-motion:reduce){
+  .gallery-show-more,.field-photo img,.kit-photo-main,.kit-photo-detail {transition:none!important;}
+}
+
+/* Contain the decorative contact illustration inside the section on small screens. */
+@media (max-width:640px){
+  .contact-section {position:relative;isolation:isolate;overflow:hidden;}
+  .contact-graphic {right:0;max-width:100%;pointer-events:none;}
+  .values-ribbon {max-width:100%;overflow-x:auto;}
+}
+
+/* Brand business card — phone and email verified on the studio's own public flyer. */
+.contact-layout{grid-template-columns:42% 58%;gap:36px;align-items:center;}
+.contact-card-wrap{position:relative;z-index:2;width:100%;min-width:0;}
+.contact-business-card{
+  position:relative;
+  max-width:590px;
+  background:linear-gradient(155deg,#fafaf3 0%,#f0f3e7 100%);
+  color:#234b37;border:1px solid rgba(251,250,239,.82);
+  padding:33px 37px 25px;
+  box-shadow:0 28px 64px rgba(10,35,20,.18);
+  overflow:hidden;
+}
+.contact-business-card::after{
+  content:"";position:absolute;pointer-events:none;z-index:0;
+  width:220px;height:220px;border:1px solid rgba(101,142,102,.14);
+  border-radius:50%;right:-95px;top:-103px;
+  box-shadow:0 0 0 24px rgba(121,148,114,.028),0 0 0 53px rgba(121,148,114,.026);
+}
+.business-card-top{display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+.business-card-logo{flex:0 0 75px;width:75px;height:75px;border-radius:50%;box-shadow:0 2px 15px rgba(19,60,29,.08);overflow:hidden}
+.business-card-logo img{width:100%;height:100%;object-fit:contain;display:block}
+.business-card-brand{display:flex;flex-direction:column;gap:5px;min-width:0}
+.business-card-brand>span{font:700 9px var(--en);letter-spacing:1.2px;color:#86a087}
+.business-card-brand>strong{font:700 19px/1.55 var(--serif);letter-spacing:-.7px}
+.business-card-person{position:relative;z-index:1;padding:30px 0 21px;border-bottom:1px solid #d4dfd0}
+.business-card-overline{display:block;font:700 9px var(--en);letter-spacing:1.4px;color:#88a58d;margin-bottom:8px}
+.business-card-person-name{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.business-card-person-name strong{font:700 clamp(28px,2.65vw,37px)/1.35 var(--serif);letter-spacing:-1.3px}
+.business-card-person-name span{font:600 12px var(--sans);color:#6c886e}
+.business-card-person p{font:400 12px/1.8 var(--sans);color:#748777;margin:10px 0 0}
+.business-card-contact{position:relative;z-index:1;display:flex;flex-direction:column;padding:13px 0 19px}
+.business-card-contact a{
+  display:grid;grid-template-columns:89px minmax(0,1fr) 16px;
+  align-items:center;gap:12px;min-height:43px;padding:4px 0;
+  text-decoration:none;color:#2e513b;border-bottom:1px solid #e5eadf;
+}
+.business-card-contact a:hover{color:#789b75}
+.business-contact-label{font:700 9px var(--en);letter-spacing:1px;color:#93a994}
+.business-card-contact strong{font:600 14px/1.6 var(--sans);overflow-wrap:anywhere;letter-spacing:-.2px}
+.business-card-contact a>span:last-child{font-size:15px}
+.business-card-footer{display:flex;justify-content:space-between;align-items:center;gap:14px;position:relative;z-index:1}
+.business-card-footer>span{font-size:10px;color:#869989;line-height:1.7}
+.business-card-footer>a{
+  font-size:11px;font-weight:700;color:#355d3f;border:1px solid #acc4aa;
+  padding:9px 12px;white-space:nowrap;
+}
+.business-card-footer>a:hover{background:#e4ede2}
+@media(max-width:1100px){
+ .contact-layout{grid-template-columns:40% 60%;gap:18px}
+ .contact-business-card{padding:27px 24px 23px}
+ .business-card-top{gap:12px}
+ .business-card-brand>strong{font-size:17px}
+ .business-card-person{padding-top:22px}
+}
+@media(max-width:860px){
+ .contact-layout{grid-template-columns:1fr;gap:33px}
+ .contact-card-wrap{max-width:590px;margin:0 auto}
+ .contact-content>p:not(.section-index){max-width:640px}
+ .contact-section{padding:70px 0}
+}
+@media(max-width:640px){
+ .contact-layout{gap:28px}
+ .contact-section h2{font-size:clamp(34px,9vw,45px)}
+ .contact-business-card{padding:22px 20px 22px}
+ .business-card-logo{flex-basis:62px;width:62px;height:62px}
+ .business-card-brand>span{font-size:8px;letter-spacing:.8px}
+ .business-card-brand>strong{font-size:17px}
+ .business-card-person{padding:25px 0 17px}
+ .business-card-person-name strong{font-size:32px}
+ .business-card-contact a{grid-template-columns:67px minmax(0,1fr) 14px;gap:7px}
+ .business-card-contact strong{font-size:13px}
+ .business-card-footer{gap:9px;flex-wrap:wrap}
+}
+@media(max-width:360px){
+ .contact-business-card{padding:18px 14px 18px}
+ .business-card-brand>strong{font-size:16px}
+ .business-card-person-name{gap:7px}
+ .business-card-person-name span{font-size:10px}
+ .business-card-contact strong{font-size:12px}
+}
