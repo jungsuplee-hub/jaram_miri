@@ -77,12 +77,12 @@
 - 스타일은 main-profile.css; 갤러리 생성 스크립트는 scripts/render_gallery.py.
 - 출처는 2026년 11월 개인 제공 이력서, 입학 예정은 2026.11.20 합격통지서이며 독립 기관 검증과 구분함.
 
-## 공개 인스타그램 신규 활동 자동 반영 (매일 08:35 KST)
+## 공개 인스타그램 신규 활동 자동 반영 (매일 02:00 KST)
 
 서버 작업: `scripts/instagram_daily_sync.py` · 분류 결과 JSON Schema: `scripts/instagram-review.schema.json`
 
 - `data/instagram-known.json`에는 2026-11-21 공개 열람 사이트에서 확보한 게시물 **2,470개의 ID**가 초기 기준으로 저장되어 있습니다. 이는 원본 계정 전체 데이터의 완전성을 보증하지 않습니다.
-- 매일 08:35(Asia/Seoul)에 `@jaram_miri` 공개 게시물 목록의 최신 항목을 확인합니다. 변경이 없으면 **Codex 호출 및 Git 변경을 수행하지 않습니다.**
+- 매일 02:00(Asia/Seoul)에 `@jaram_miri` 공개 게시물 목록의 최신 항목을 확인합니다. 변경이 없으면 **Codex 호출 및 Git 변경을 수행하지 않습니다.**
 - 기준 목록에 없는 새 게시물이 있으면 캡션으로 1차 선별하고, 후보의 대표 사진을 다운로드한 다음 **서버에 로그인된 Codex CLI**가 이미지·글을 함께 검토합니다. 신규 글도 학교 교육, 강사·전문가 연수, 광고·모집, 가족·일상, 맥락 없는 꽃 사진은 제외합니다.
 - Codex는 **읽기 전용**으로 실행하며 JSON 스키마에 맞춘 *채택 여부·프로그램 분류·사실 확인된 짧은 문구*만 반환합니다. Codex가 직접 파일·서버를 임의 변경하는 방식이 아닙니다.
 - 유효한 원예치료 게시물만 `data/gallery.json` 및 로컬 `assets/instagram/`에 추가합니다. `python3 scripts/render_gallery.py`로 홈 및 프로그램별 전체보기를 동기화하고 검사한 뒤 `main` 브랜치에 커밋/푸시합니다. Pages는 GitHub의 기존 배포 설정을 사용합니다.
