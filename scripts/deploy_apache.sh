@@ -18,6 +18,9 @@ DESTINATION=/var/www/jaram-miri
   echo 'JARAM deployment skipped: local repository has uncommitted changes' >&2; exit 1;
 }
 
+# Pick up commits pushed from other machines without replacing local edits.
+git -C "$SOURCE" pull --ff-only --quiet origin main
+
 # Publication allowlist: protect the SSL verification folder and exclude all
 # private workspace content. An excluded file cannot be created on the webroot.
 rsync -a --delete \
