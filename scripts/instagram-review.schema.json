@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["reviews"],
+  "properties": {
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "include", "category", "title", "summary", "reason"],
+        "properties": {
+          "id": {"type": "string"},
+          "include": {"type": "boolean"},
+          "category": {"type": "string", "enum": ["장애인 원예치료", "어르신 돌봄", "치매·인지지원", "어르신 원예활동", "직장인 정서지원", "원예치료"]},
+          "title": {"type": "string"},
+          "summary": {"type": "string"},
+          "reason": {"type": "string"}
+        }
+      }
+    }
+  }
+}

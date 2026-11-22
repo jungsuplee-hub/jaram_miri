@@ -239,3 +239,21 @@
   .kit-copy .button{display:flex;width:max-content;min-width:0}
   .kit-post-link{display:block;width:fit-content;margin-top:17px}
 }
+
+/* Director's message and clearly differentiated participation audiences. */
+.about-body>p {margin-top:0;margin-bottom:18px}
+.about-body>.about-highlight {margin-bottom:23px}
+.about-body>.about-quote {margin-top:30px}
+.about-body>.about-quote p {font-size:19px;line-height:1.8}
+.home-audience-block {margin:66px 0 24px;padding:37px 0 0;border-top:1px solid #d5e0d2}
+.home-resume-head {display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:23px}
+.home-resume-head small {font:700 10px var(--en);letter-spacing:1.5px;color:#819b84}
+.home-resume-head h3 {font:400 clamp(23px,2.7vw,32px)/1.4 var(--serif);letter-spacing:-.8px;margin:7px 0 0;color:#284936}
+.home-resume-head>p {font-size:12px;color:#718571;margin:0 0 6px;line-height:1.8}
+.home-audience-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.home-audience-card {position:relative;min-width:0;min-height:176px;box-sizing:border-box;padding:25px 22px;border:1px solid #dce6d8;background:#fafbf7}
+.home-audience-number {font:700 12px var(--en);letter-spacing:.6px;color:#93ad96}
+.home-audience-card h4 {font:700 17px/1.5 var(--serif);color:#284b37;margin:12px 0 10px;word-break:keep-all}
+.home-audience-card p {font-size:12px;color:#6f8473;line-height:1.8;margin:0;word-break:keep-all}
+@media(max-width:850px){.home-audience-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-resume-head{display:block}.home-resume-head>p{margin:8px 0 0}}
+@media(max-width:520px){.home-audience-block{margin-top:45px;padding-top:25px}.home-audience-grid{grid-template-columns:1fr;gap:9px}.home-audience-card{min-height:0;padding:19px 18px}.home-audience-card h4{font-size:17px;margin:6px 0}.home-audience-card p{font-size:12px}.about-body>.about-quote p{font-size:17px}}
