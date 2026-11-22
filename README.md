@@ -90,5 +90,11 @@
 - 실행 로그: 서버 `logs/instagram_daily_sync.log`; 마지막 정상 무변경 조회: `.cache/instagram-last-check.json` (둘 다 비공개·Git 제외).
 - 수동 검증: `python3 scripts/instagram_daily_sync.py --dry-run`
 - 수동 실행: `python3 scripts/instagram_daily_sync.py --run` (정상 계정 인증, 저장소 clean 상태 필요)
-- 동시 실행 방지: `flock /tmp/jaram-instagram-sync.lock`.
+- 동시 실행 방지: `flock /tmp/jaram-instagram-daily.lock`.
 - 사이트와 외부 공개 뷰어가 접속되지 않거나 로그인 만료·GitHub 인증 오류가 발생하면 **무분별한 자동 게시 대신 오류로 종료**하므로 로그 확인이 필요합니다.
+
+## 별도 도메인 Apache 자동 동기화
+
+`https://jaram-miri.kro.kr/`은 GitHub Pages와 별개의 Apache DocumentRoot(`/var/www/jaram-miri`)에서 제공됩니다. GitHub Pages 저장소에만 커밋하면 이 도메인에는 자동으로 반영되지 않으므로, `scripts/deploy_apache.sh`가 **동일한 저장소를 공개용 파일만 선별해서** 서버에 동기화합니다. 호환 실행 파일: `/home/ljs1092/deploy-jaram-miri.sh`.
+
+비공개 `data/instagram-known.json`, `.git`, `.cache`, `scripts`, `logs`는 웹에 복사하지 않습니다. 기존 ZeroSSL HTTP-01 검증 경로 `.well-known`도 보존합니다. Git 작업 중 미커밋 변경이 있으면 동기화를 중단합니다. 게시 직후에는 `https://jaram-miri.kro.kr/`의 모바일 표시까지 확인합니다.

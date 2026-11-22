@@ -264,6 +264,9 @@ def publish(new_posts, reviews, known_state):
     run_command(['git','diff','--cached','--check'])
     run_command(['git','-c','user.name=JARAM Profile Bot','-c','user.email=jungsuplee-hub@users.noreply.github.com','commit','-m',f'Auto-sync {len(appended)} verified JARAM Instagram field post(s)'],timeout=40)
     run_command(['git','push','origin','main'],timeout=100)
+    # The official .kro.kr site is Apache-hosted, not a GitHub Pages alias.
+    # Keep it in sync immediately after publishing a verified new case.
+    run_command(['/home/ljs1092/deploy-jaram-miri.sh'],timeout=90)
     log('Published:',len(appended),'new case(s); checked:',len(new_posts),'post(s)')
 
 
