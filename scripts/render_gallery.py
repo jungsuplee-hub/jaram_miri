@@ -55,7 +55,7 @@ def page_head(home):
 
 def page_nav(home):
  header=home[home.index('<header class="site-header"'):home.index('</header>')+9]
- for fragment in ('#about','#programs','#kits','#activities','#publication','#curriculum','#story','#director'):
+ for fragment in ('#about','#programs','#kits','#activities','#publication','#story','#director'):
   header=header.replace('href="'+fragment+'"','href="index.html'+fragment+'"')
  header=header.replace('href="#top"','href="index.html"')
  header=header.replace('href="index.html#activities"','href="activities.html"')
@@ -63,7 +63,7 @@ def page_nav(home):
 
 def page_footer(home):
  footer=home[home.index('<footer class="site-footer"'):home.index('</footer>')+9]
- for fragment in ('#about','#programs','#kits','#activities','#publication','#curriculum','#story','#director'):
+ for fragment in ('#about','#programs','#kits','#activities','#publication','#story','#director'):
   footer=footer.replace('href="'+fragment+'"','href="index.html'+fragment+'"')
  footer=footer.replace('href="index.html#activities"','href="activities.html"')
  return footer
