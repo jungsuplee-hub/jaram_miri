@@ -106,3 +106,16 @@
 `https://jaram-miri.kro.kr/`은 GitHub Pages와 별개의 Apache DocumentRoot(`/var/www/jaram-miri`)에서 제공됩니다. GitHub Pages 저장소에만 커밋하면 이 도메인에는 자동으로 반영되지 않으므로, `scripts/deploy_apache.sh`가 **동일한 저장소를 공개용 파일만 선별해서** 서버에 동기화합니다. 호환 실행 파일: `/home/ljs1092/deploy-jaram-miri.sh`.
 
 비공개 `data/instagram-known.json`, `.git`, `.cache`, `scripts`, `logs`는 웹에 복사하지 않습니다. 기존 ZeroSSL HTTP-01 검증 경로 `.well-known`도 보존합니다. Git 작업 중 미커밋 변경이 있으면 동기화를 중단합니다. 게시 직후에는 `https://jaram-miri.kro.kr/`의 모바일 표시까지 확인합니다.
+
+## 비공개 수정 게시판과 미리보기 승인 배포
+
+운영 전용 게시판은 `https://jaram-miri.kro.kr/secret/`에서 Apache+PHP로 제공하며, 공개 GitHub Pages에는 배포하지 않습니다. 비밀번호·개인 요청 글·작업 내용·내부 Git 프리뷰 참조는 서버 `/home/ljs1092/jaram-secret-private/`에 보관됩니다. 비밀번호 자체는 저장하지 않고 해시로 검증합니다.
+
+- 매시간 11분: 서버 Codex CLI `gpt-6.1-terra`가 **미처리 수정 요청 1건을 격리된 Git 작업 폴더에서 수정**합니다.
+- 사이트를 검증한 뒤 난수 경로 `/preview/<token>/`에 정적 미리보기를 만들어 게시판의 Codex 댓글에 링크로 등록합니다. **승인 전에는 GitHub Pages와 운영 사이트를 수정하지 않습니다.**
+- 로그인한 운영자가 게시판의 `적용하기`를 누르면 승인 대기열로 전환합니다. 약 1분마다 승인 요청을 확인해, 원본 버전이 미리보기 제작 시점과 같은 경우에만 해당 변경을 GitHub main으로 반영하고 Apache 도메인에 게시합니다. 그 사이 운영 사이트가 변경되었으면 충돌 방지를 위해 수동 확인이 필요합니다.
+- 최근 **미리보기 5개**를 보관하며, 새 미리보기가 추가되면 오래된 주소·서버 전용 Git 참조를 정리합니다. 링크를 아는 사람은 미리보기 내용을 볼 수 있으므로 URL을 외부에 공유하지 않는 것이 좋습니다.
+- 별도 `과거 버전 복원` 기능은 그대로 유지하고, 복원 자체도 새로운 공개 Git 커밋으로 남깁니다.
+- 버전 관리 대상 `scripts/deploy_apache.sh`는 운영 홈페이지를 동기화하면서 **`/secret/`, `/preview/`, `/.well-known/`을 삭제하지 않도록 보호**합니다.
+
+운영자만 접근 가능한 서버 쪽 구현: `/home/ljs1092/jaram-secret-private/worker.py` 및 `/var/www/jaram-miri/secret/`. 비밀번호는 README 및 공개 저장소에 포함하지 않습니다.

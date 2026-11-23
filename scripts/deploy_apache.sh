@@ -26,6 +26,7 @@ git -C "$SOURCE" pull --ff-only --quiet origin main
 rsync -a --delete \
   --filter='P /.well-known/***' \
   --filter='P /secret/***' \
+  --filter='P /preview/***' \
   --include='/*.html' \
   --include='/*.css' \
   --include='/*.js' \
@@ -64,5 +65,6 @@ assert len(json.loads((root/'data/gallery.json').read_text(encoding='utf-8'))) =
 assert not (root/'data/instagram-known.json').exists(), 'Private checkpoint must not be published'
 assert not (root/'.git').exists(), 'Git internals must not be published'
 assert (root/'secret/index.php').is_file(), 'Private administrator page must be preserved'
+assert (root/'preview').is_dir(), 'Approved preview directory must not be deleted by deploy'
 print('JARAM Apache publish verified:', root)
 PY
