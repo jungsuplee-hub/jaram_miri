@@ -25,6 +25,7 @@ git -C "$SOURCE" pull --ff-only --quiet origin main
 # private workspace content. An excluded file cannot be created on the webroot.
 rsync -a --delete \
   --filter='P /.well-known/***' \
+  --filter='P /secret/***' \
   --include='/*.html' \
   --include='/*.css' \
   --include='/*.js' \
@@ -62,5 +63,6 @@ assert len(site.select('#home-audiences .home-audience-card')) == 6, 'Audience s
 assert len(json.loads((root/'data/gallery.json').read_text(encoding='utf-8'))) == len(site.select('[data-gallery-card]')), 'Gallery mismatch'
 assert not (root/'data/instagram-known.json').exists(), 'Private checkpoint must not be published'
 assert not (root/'.git').exists(), 'Git internals must not be published'
+assert (root/'secret/index.php').is_file(), 'Private administrator page must be preserved'
 print('JARAM Apache publish verified:', root)
 PY
