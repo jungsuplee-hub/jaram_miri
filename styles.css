@@ -386,3 +386,7 @@ html.js .reveal.is-visible{opacity:1;transform:translateY(0)}
 
 /* Explicit line boundaries for the two-sentence hero introduction. */
 @media(max-width:860px){.hero-desc{width:100%;max-width:100%}}
+
+/* Additional public community links: compact desktop nav; retain accessible mobile menu. */
+@media(min-width:1081px){.header-inner{gap:20px}.desktop-nav{gap:clamp(9px,1.05vw,21px)}.desktop-nav a{font-size:12px}}
+@media(min-width:861px) and (max-width:1080px){.desktop-nav,.header-contact{display:none}.header-inner{justify-content:space-between}.menu-toggle{display:flex}.mobile-nav:not([hidden]){display:flex}}

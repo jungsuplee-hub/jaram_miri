@@ -147,3 +147,10 @@ Google과 Naver의 웹마스터 도구에서 **소유권 인증 및 사이트맵
 - Bing Webmaster Tools: https://www.bing.com/webmasters/ — 사이트 등록·인증 후 XML 사이트맵 제출 여부 확인. IndexNow는 추가적인 발견 알림 수단입니다.
 
 개발자 확인: `python3 scripts/update_search.py`, `python3 scripts/render_gallery.py`, `python3 -m py_compile scripts/update_search.py`. 비공개 문서·서버 작업이 검색엔진에 노출되지 않도록 관리하세요.
+
+## 공개 공지사항 · 자유게시판
+
+- 공지사항: https://jaram-miri.kro.kr/board/?type=notice — 운영자 작성, 수정, 상단 고정, 공개/숨김/삭제.
+- 자유게시판: https://jaram-miri.kro.kr/board/?type=free — 방문자 글쓰기, 제목·내용 검색, 페이지 이동. 등록 글은 운영자 승인 전 공개되지 않으며 별도 개인정보 입력은 요구하지 않습니다.
+- 관리: 기존 `/secret/` 로그인 후 `공지·자유게시판 관리` 메뉴. 기존 Codex 수정 요청과 별도이며 게시글 수정/승인으로 홈페이지 Git 버전을 변경하지 않습니다.
+- PHP 앱과 SQLite DB는 Apache 운영 서버에 유지하며 공개 GitHub Pages에는 정적 홈페이지 및 실제 게시판 링크만 반영합니다. DB는 DocumentRoot 외부에 있고 배포 스크립트는 `/board/`와 `/secret/`을 보호합니다. 공지 목록은 사이트맵에 포함하고 자유게시판은 방문자 작성 콘텐츠이므로 기본 noindex로 설정합니다.
