@@ -173,6 +173,9 @@ def update_sitemap(posts: list[dict]):
     ET.register_namespace('',SITEMAP_NS)
     ET.register_namespace('image',IMAGE_NS)
     sitemap=ET.Element(f'{{{SITEMAP_NS}}}urlset')
+    # Both home and activities pages expose every activity photo in their detail dialog.
+    # Google permits at most 1000 image entries per page URL.
+    image_paths=list(dict.fromkeys(str(img) for post in posts for img in post.get('images',[])))
     for filename in PAGE_META:
         path=ROOT/filename
         if not path.is_file():
@@ -181,21 +184,16 @@ def update_sitemap(posts: list[dict]):
         ET.SubElement(entry,f'{{{SITEMAP_NS}}}loc').text=PAGE_META[filename]['canonical']
         modified=datetime.fromtimestamp(path.stat().st_mtime).astimezone().date().isoformat()
         ET.SubElement(entry,f'{{{SITEMAP_NS}}}lastmod').text=modified
-        if filename=='activities.html':
-            seen=set()
-            for post in posts:
-                for relative in post.get('images',[]):
-                    path_str=str(relative)
-                    if path_str in seen:
-                        continue
-                    if not path_str.startswith('assets/instagram/') or '..' in Path(path_str).parts:
-                        raise RuntimeError('Unsafe image URL in activity data')
-                    image_file=ROOT/path_str
-                    if not image_file.is_file():
-                        raise RuntimeError('Activity sitemap image does not exist: '+path_str)
-                    seen.add(path_str)
-                    extension=ET.SubElement(entry,f'{{{IMAGE_NS}}}image')
-                    ET.SubElement(extension,f'{{{IMAGE_NS}}}loc').text=DOMAIN+quote(path_str,safe='/._-')
+        if filename in ('index.html','activities.html'):
+            paths=image_paths[:1000] if filename=='activities.html' else image_paths[1000:2000]
+            for path_str in paths:
+                if not path_str.startswith('assets/instagram/') or '..' in Path(path_str).parts:
+                    raise RuntimeError('Unsafe image URL in activity data')
+                image_file=ROOT/path_str
+                if not image_file.is_file():
+                    raise RuntimeError('Activity sitemap image does not exist: '+path_str)
+                extension=ET.SubElement(entry,f'{{{IMAGE_NS}}}image')
+                ET.SubElement(extension,f'{{{IMAGE_NS}}}loc').text=DOMAIN+quote(path_str,safe='/._-')
     notice=ET.SubElement(sitemap,f'{{{SITEMAP_NS}}}url')
     ET.SubElement(notice,f'{{{SITEMAP_NS}}}loc').text=DOMAIN+'board/?type=notice'
     xml=ET.tostring(sitemap,encoding='utf-8',xml_declaration=True)
