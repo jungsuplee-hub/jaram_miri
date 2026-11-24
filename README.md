@@ -128,3 +128,22 @@
 - 작업 시 `reference_ingest.py`가 해당 게시글의 이미지 및 문서 텍스트를 안전한 임시 작업 폴더에 준비하고, 이미지·PDF 첫 페이지·Office 문서에 포함된 그림을 Codex CLI의 `--image`로도 전달합니다. 문서에서 추출된 텍스트는 수정 요청 본문과 함께 전달됩니다. 임시 참고 파일은 Git 변경 내역 검사 전에 삭제합니다.
 - **첨부 원본 보관기간: 등록 후 30일.** 서버 크론이 매일 03:17(Asia/Seoul)에 파일과 저장 식별자·원본 파일명을 삭제합니다. 게시글·댓글·작업 결과·미리보기 승인 이력은 계속 남습니다. 미리보기에서 승인되어 실제 홈페이지에 게시된 이미지 등 공개 웹사이트 자산은 원본 임시 첨부파일과 별도로 관리됩니다.
 - **과거 버전 복원 목록:** 이 게시판에서 등록하고 적용이 완료된 수정/복원 이력만 표시합니다. GitHub에 별도로 수정한 이력과 미승인 미리보기는 제외하며, 관련 게시물 번호/제목과 해당 글 링크를 제공합니다. 게시판 처리 스크립트와 비밀번호는 공개 저장소에 포함하지 않습니다.
+
+## 검색엔진 SEO · AI 검색(GEO) 준비 (2026-11-24)
+
+공식 사이트 주소: **https://jaram-miri.kro.kr/**. GitHub Pages 사본의 canonical도 실제 운영 도메인을 가리킵니다. 웹 문서의 제목/설명/OG 미리보기/대표 URL, Schema.org JSON-LD(Organization·WebSite·Service·Book·CollectionPage·FAQPage)를 실제 사이트 내용에 맞게 구성했습니다. 주소·가격·성과 등 확인되지 않은 정보는 구조화 데이터에 넣지 않습니다.
+
+- `https://jaram-miri.kro.kr/sitemap.xml` — **공개 콘텐츠 페이지 4개 + 실제 프로그램 사진 670장**을 포함하는 XML 이미지 사이트맵. 새 활동이 추가되어 `python3 scripts/render_gallery.py`가 실행되면 `scripts/update_search.py`를 호출해 자동 갱신합니다.
+- `https://jaram-miri.kro.kr/robots.txt` — 공개 페이지는 수집 허용, 비공개 `/secret/`·미승인 `/preview/`은 수집 제외, 사이트맵 주소 안내.
+- `https://jaram-miri.kro.kr/faq.html` — 원예치료·학교 원예교육·어르신 원예활동·키트·컨설팅 등 확인된 주제 10개에 관한 공개 질문과 답변. 본문이 실제 화면에 표시됩니다.
+- `https://jaram-miri.kro.kr/llms.txt` — AI 시스템과 사람에게 확인된 공식 페이지를 알려주는 부가 텍스트 안내. AI 검색 결과 반영을 보장하는 표준은 아닙니다.
+- Bing 및 IndexNow 참여 검색엔진의 URL 발견을 돕기 위해 공개 소유확인 TXT 파일을 두고, `scripts/notify_indexnow.py`에서 **사이트맵 내용이 변경된 경우에만 공개 페이지 4개의 주소를 제출**하도록 했습니다. 서버 `scripts/deploy_apache.sh`와 연동하며 알림 실패는 홈페이지 배포를 막지 않습니다.
+
+Google과 Naver의 웹마스터 도구에서 **소유권 인증 및 사이트맵 등록은 별도**입니다. 검색 로봇에 파일을 제공하는 것만으로 검색 색인·노출·순위가 보장되지 않습니다.
+
+사이트 소유권을 확인할 때 사용할 주소:
+- Google Search Console: https://search.google.com/search-console/ — `https://jaram-miri.kro.kr/` (URL 접두어) 등록 → 소유권 확인 → `sitemap.xml` 제출
+- Naver Search Advisor: https://searchadvisor.naver.com/ — `https://jaram-miri.kro.kr` 등록 → 소유권 확인 → 사이트맵 `https://jaram-miri.kro.kr/sitemap.xml` 제출
+- Bing Webmaster Tools: https://www.bing.com/webmasters/ — 사이트 등록·인증 후 XML 사이트맵 제출 여부 확인. IndexNow는 추가적인 발견 알림 수단입니다.
+
+개발자 확인: `python3 scripts/update_search.py`, `python3 scripts/render_gallery.py`, `python3 -m py_compile scripts/update_search.py`. 비공개 문서·서버 작업이 검색엔진에 노출되지 않도록 관리하세요.

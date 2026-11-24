@@ -41,6 +41,7 @@ def payload(posts):
 
 def page_head(home):
  head=home[home.index('<head>'):home.index('</head>')+7]
+ head=re.sub(r'\s*<script[^>]*id="site-structured-data"[^>]*>.*?</script>', '', head, flags=re.I|re.S)
  head=head.replace('<meta name="description" content="자람원예치료연구소 | 꽃과 식물이 전하는 회복과 성장. 맞춤형 원예치료, 실제 활동 사례, 원예교육, 원예키트 문의, 프로그램 컨설팅.">',
  '<meta name="description" content="자람원예치료연구소의 실제 원예치료 현장을 프로그램 유형별로 살펴보세요. 장애인·어르신·치매안심센터 활동 사진과 기록.">')
  head=head.replace('자람원예치료연구소 | 식물이 자라는 시간, 마음도 함께 자랍니다','원예치료 프로그램별 활동 사진 | 자람원예치료연구소')
@@ -51,6 +52,16 @@ def page_head(home):
  head=head.replace('gallery.css?v=20261121-5','gallery.css?v=20261121-7')
  head=head.replace('script.js?v=20261121-5','script.js?v=20261121-7')
  head=head.replace('<script src="script.js?v=20261121-7" defer></script>','<link rel="stylesheet" href="activities-full.css?v=20261121-7">\n  <script src="script.js?v=20261121-7" defer></script>\n  <script src="activities-full.js?v=20261121-7" defer></script>')
+ # Keep canonical and OpenGraph URLs correct whenever the Instagram gallery
+ # renderer rebuilds the archive page from the homepage HTML head.
+ head=re.sub(r'<meta\s+name="description"[^>]*>', '<meta name="description" content="자람원예치료연구소의 실제 현장 기록. 장애인 원예치료, 어르신 돌봄, 치매·인지지원, 아동·청소년 원예교육, 강사 연수 등 프로그램별 사진과 활동 내용을 확인하세요.">', head, count=1)
+ for prop,content in (
+  ('og:title','원예치료·원예교육 실제 활동 사진 | 자람원예치료연구소'),
+  ('og:description','학교·복지기관·치매안심센터 등 다양한 현장의 원예치료 및 원예교육 활동 사례와 사진.'),
+  ('og:url','https://jaram-miri.kro.kr/activities.html'),
+ ):
+  head=re.sub(r'<meta\s+property="'+re.escape(prop)+r'"[^>]*>',lambda m:'<meta property="'+prop+'" content="'+content+'">',head,count=1)
+ head=re.sub(r'<link\s+rel="canonical"[^>]*>', '<link rel="canonical" href="https://jaram-miri.kro.kr/activities.html">',head,count=1)
  return head
 
 def page_nav(home):
@@ -136,5 +147,8 @@ def main():
  '''+footer+'\n'+dialog+'\n<script type="application/json" id="photo-gallery-data">'+payload(posts)+'</script>\n</body></html>'
  ARCHIVE.write_text(archive,encoding='utf-8')
  print('generated',len(posts),'cases',sum(len(p['images']) for p in posts),'photos','categories',dict(types))
+ # Rebuild image sitemap + per-page organization/FAQ schema after every update.
+ import subprocess,sys
+ subprocess.run([sys.executable,str(ROOT/'scripts/update_search.py')],check=True)
 
 if __name__=='__main__':main()

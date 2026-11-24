@@ -31,6 +31,7 @@ rsync -a --delete \
   --include='/*.css' \
   --include='/*.js' \
   --include='/robots.txt' \
+  --include='/*.txt' \
   --include='/sitemap.xml' \
   --include='/assets/***' \
   --include='/data/' \
@@ -68,3 +69,7 @@ assert (root/'secret/index.php').is_file(), 'Private administrator page must be 
 assert (root/'preview').is_dir(), 'Approved preview directory must not be deleted by deploy'
 print('JARAM Apache publish verified:', root)
 PY
+
+# Inform participating search engines only when canonical sitemap changed.
+# Failed notifications never roll back a successful website publication.
+/usr/bin/python3 "$SOURCE/scripts/notify_indexnow.py" || echo "IndexNow notification could not be completed; site remains deployed" >&2
