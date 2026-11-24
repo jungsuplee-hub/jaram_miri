@@ -65,7 +65,8 @@ def read_cards(driver):
           id: a.dataset.postCard || '',
           date: a.querySelector('time')?.getAttribute('datetime') || '',
           caption: a.querySelector('.line-clamp-2')?.textContent?.trim() || '',
-          image: a.querySelector('img')?.getAttribute('src') || ''
+          image: a.querySelector('img')?.getAttribute('src') || '',
+          type: a.querySelector(':scope > span')?.innerText?.trim().slice(0,80) || ''
         }));
     ''')
 
@@ -238,7 +239,13 @@ def publish(new_posts, reviews, known_state):
         relative = 'assets/instagram/'+img_name
         target = ROOT/relative
         target.write_bytes(image.read_bytes())
-        appended.append({'id':post['id'],'title':title,'category':category,'summary':summary,'date':date.strftime('%Y.%m.%d'), 'caption':'','images':[relative],'source':'https://www.instagram.com/p/'+post['id']+'/'})
+        entry={'id':post['id'],'title':title,'category':category,'summary':summary,'date':date.strftime('%Y.%m.%d'), 'caption':'','images':[relative],'source':'https://www.instagram.com/p/'+post['id']+'/'}
+        # The card contains only the representative image. Queue original public
+        # media verification for each new curated post; never treat a cover as complete.
+        match=re.search(r'Photos and videos in this post:,\s*(\d+)',post.get('type',''))
+        entry['media_total']=int(match[1]) if match else 0
+        entry['media_checked']=False
+        appended.append(entry)
     if appended:
         existing = existing[:4]+sorted(existing[4:]+appended,key=lambda p:(p['date'],p['id']),reverse=True)
         DATA.write_text(json.dumps(existing,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
@@ -259,7 +266,7 @@ def publish(new_posts, reviews, known_state):
     CHECKPOINT.write_text(json.dumps(known_state,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     paths = ['data/instagram-known.json']
     if appended:
-        paths += ['data/gallery.json','index.html','activities.html']+[p['images'][0] for p in appended]
+        paths += ['data/gallery.json','index.html','activities.html','sitemap.xml','robots.txt','llms.txt','faq.html','credits.html']+[image for p in appended for image in p['images']]
     run_command(['git','add','--',*paths],timeout=20)
     run_command(['git','diff','--cached','--check'])
     run_command(['git','-c','user.name=JARAM Profile Bot','-c','user.email=jungsuplee-hub@users.noreply.github.com','commit','-m',f'Auto-sync {len(appended)} verified JARAM Instagram field post(s)'],timeout=40)

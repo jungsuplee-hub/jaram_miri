@@ -29,12 +29,12 @@ def card(post, home=False, i=0):
  return '''<article class="{cls}" data-gallery-card data-gallery-id="{id}" data-gallery-year="{year}"{hidden}>
  <button type="button" class="field-photo photo-open" data-gallery-open="{id}" aria-label="{title} 사진 자세히 보기">
  <img src="{image}?v=6" width="900" height="900" loading="lazy" decoding="async" alt="{title} 현장 사진">
- <span class="photo-photo-overlay">사진 보기 <span aria-hidden="true">↗</span></span>
+ <span class="photo-photo-overlay">사진 보기 <span aria-hidden="true">↗</span></span>{photo_badge}
  <span class="photo-fallback" hidden>사진을 불러오지 못했습니다.</span></button>
  <div class="field-info"><span class="field-date">{date} · {category}</span><h4>{title}</h4><p>{summary}</p>
  <button class="field-detail-button" type="button" data-gallery-open="{id}">사진과 내용 자세히 보기 <span aria-hidden="true">↗</span></button></div>
  </article>'''.format(cls=cls,id=escape(p['id'],quote=True),year=escape(p['date'][:4]),hidden=hidden,
-    title=escape(p['title']),image=escape(p['images'][0],quote=True),date=escape(p['date']),category=escape(p['category']),summary=escape(p['summary']))
+    title=escape(p['title']),image=escape(p['images'][0],quote=True),date=escape(p['date']),category=escape(p['category']),summary=escape(p['summary']),photo_badge=(f'<span class="field-photo-count">{len(p["images"])}장</span>' if len(p['images'])>1 else (f'<span class="field-photo-count">복수 사진·영상</span>' if p.get('media_total',0)>1 else '')))
 
 def payload(posts):
  return json.dumps(posts,ensure_ascii=False,separators=(',',':')).replace('</','<\\/')
@@ -49,9 +49,9 @@ def page_head(home):
  head=head.replace('https://jungsuplee-hub.github.io/jaram_miri/"','https://jungsuplee-hub.github.io/jaram_miri/activities.html"')
  head=head.replace('  <link rel="stylesheet" href="main-profile.css?v=20261121-2">\n','')
  head=head.replace('href="styles.css"','href="styles.css"')
- head=head.replace('gallery.css?v=20261121-5','gallery.css?v=20261121-7')
- head=head.replace('script.js?v=20261121-5','script.js?v=20261121-7')
- head=head.replace('<script src="script.js?v=20261121-7" defer></script>','<link rel="stylesheet" href="activities-full.css?v=20261121-7">\n  <script src="script.js?v=20261121-7" defer></script>\n  <script src="activities-full.js?v=20261121-7" defer></script>')
+ head=head.replace('gallery.css?v=20261121-5','gallery.css?v=20261125-carousel')
+ head=head.replace('script.js?v=20261121-5','script.js?v=20261125-carousel')
+ head=head.replace('<script src="script.js?v=20261125-carousel" defer></script>','<link rel="stylesheet" href="activities-full.css?v=20261121-7">\n  <script src="script.js?v=20261125-carousel" defer></script>\n  <script src="activities-full.js?v=20261121-7" defer></script>')
  # Keep canonical and OpenGraph URLs correct whenever the Instagram gallery
  # renderer rebuilds the archive page from the homepage HTML head.
  head=re.sub(r'<meta\s+name="description"[^>]*>', '<meta name="description" content="자람원예치료연구소의 실제 현장 기록. 장애인 원예치료, 어르신 돌봄, 치매·인지지원, 아동·청소년 원예교육, 강사 연수 등 프로그램별 사진과 활동 내용을 확인하세요.">', head, count=1)
@@ -104,7 +104,7 @@ def main():
         '''.format(n=len(posts))
  home=home[:start]+home_body+home[end:]
  home=re.sub(r'(<script type="application/json" id="photo-gallery-data">).*?(</script>)',lambda m:m.group(1)+payload(posts)+m.group(2),home,flags=re.S)
- home=home.replace('gallery.css?v=20261121-5','gallery.css?v=20261121-7').replace('script.js?v=20261121-5','script.js?v=20261121-7')
+ home=home.replace('gallery.css?v=20261121-5','gallery.css?v=20261125-carousel').replace('script.js?v=20261121-5','script.js?v=20261125-carousel')
  if 'id="photo-dialog-source"' not in home:
   home=home.replace('        <div class="photo-dialog-caption-wrap" id="photo-dialog-caption-wrap">','        <a id="photo-dialog-source" class="photo-dialog-source" href="https://www.instagram.com/jaram_miri/" target="_blank" rel="noopener noreferrer">인스타그램 원문 보기 ↗</a>\n        <div class="photo-dialog-caption-wrap" id="photo-dialog-caption-wrap">')
  INDEX.write_text(home,encoding='utf-8')

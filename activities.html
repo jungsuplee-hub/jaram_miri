@@ -20,9 +20,9 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20261122-notes2">
   <link rel="stylesheet" href="activity-styles.css?v=20261122-notes2">
-  <link rel="stylesheet" href="gallery.css?v=20261121-7">
+  <link rel="stylesheet" href="gallery.css?v=20261125-carousel">
   <link rel="stylesheet" href="activities-full.css?v=20261121-7">
-  <script src="script.js?v=20261121-7" defer></script>
+  <script src="script.js?v=20261125-carousel" defer></script>
   <script src="activities-full.js?v=20261121-7" defer></script>
   <title>원예치료·원예교육 실제 활동 사진 | 자람원예치료연구소</title>
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
@@ -1407,7 +1407,7 @@
     <div class="field-gallery archive-grid"><article class="field-card reveal archive-card" data-gallery-card data-gallery-id="Deb7Q12Ex6d" data-gallery-year="2026">
  <button type="button" class="field-photo photo-open" data-gallery-open="Deb7Q12Ex6d" aria-label="자원봉사센터 · 복지관 원예활동 사진 자세히 보기">
  <img src="assets/instagram/Deb7Q12Ex6d-0-gallery.jpg?v=6" width="900" height="900" loading="lazy" decoding="async" alt="자원봉사센터 · 복지관 원예활동 현장 사진">
- <span class="photo-photo-overlay">사진 보기 <span aria-hidden="true">↗</span></span>
+ <span class="photo-photo-overlay">사진 보기 <span aria-hidden="true">↗</span></span><span class="field-photo-count">3장</span>
  <span class="photo-fallback" hidden>사진을 불러오지 못했습니다.</span></button>
  <div class="field-info"><span class="field-date">2026.10.13 · 어르신 돌봄</span><h4>자원봉사센터 · 복지관 원예활동</h4><p>오랜 인연을 이어온 자원봉사센터·함장종합사회복지관에서 원예활동을 진행하고 참여자들과 소감을 나눴습니다.</p>
  <button class="field-detail-button" type="button" data-gallery-open="Deb7Q12Ex6d">사진과 내용 자세히 보기 <span aria-hidden="true">↗</span></button></div>
@@ -1415,7 +1415,7 @@
 <article class="field-card reveal archive-card" data-gallery-card data-gallery-id="DeRKn7XkwlL" data-gallery-year="2026">
  <button type="button" class="field-photo photo-open" data-gallery-open="DeRKn7XkwlL" aria-label="1인 가구 어르신 상추재배키트 사진 자세히 보기">
  <img src="assets/instagram/DeRKn7XkwlL-0-gallery.jpg?v=6" width="900" height="900" loading="lazy" decoding="async" alt="1인 가구 어르신 상추재배키트 현장 사진">
- <span class="photo-photo-overlay">사진 보기 <span aria-hidden="true">↗</span></span>
+ <span class="photo-photo-overlay">사진 보기 <span aria-hidden="true">↗</span></span><span class="field-photo-count">2장</span>
  <span class="photo-fallback" hidden>사진을 불러오지 못했습니다.</span></button>
  <div class="field-info"><span class="field-date">2026.10.09 · 어르신 돌봄</span><h4>1인 가구 어르신 상추재배키트</h4><p>1인 가구 어르신을 위한 상추재배키트를 준비했습니다. 대상자별로 식물을 가꾸는 경험을 전합니다.</p>
  <button class="field-detail-button" type="button" data-gallery-open="DeRKn7XkwlL">사진과 내용 자세히 보기 <span aria-hidden="true">↗</span></button></div>
@@ -5434,6 +5434,8 @@
         <div class="photo-dialog-count" id="photo-count" aria-live="polite"></div>
       </div>
       <div class="photo-dialog-info">
+        <div id="photo-thumbnails" class="photo-thumbnails" role="group" aria-label="사진 선택" hidden></div>
+        <p id="photo-collection-note" class="photo-collection-note" hidden></p>
         <span class="photo-dialog-meta" id="photo-dialog-meta"></span>
         <h3 id="photo-dialog-title"></h3>
         <p id="photo-dialog-summary"></p>

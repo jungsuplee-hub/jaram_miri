@@ -86,6 +86,8 @@
   const photoPrev = document.querySelector('#photo-prev');
   const photoNext = document.querySelector('#photo-next');
   const photoCount = document.querySelector('#photo-count');
+  const photoThumbnails = document.querySelector('#photo-thumbnails');
+  const photoNote = document.querySelector('#photo-collection-note');
   let currentPost = null;
   let currentPhotoIndex = 0;
   let lastPhotoTrigger = null;
@@ -106,6 +108,16 @@
     photoCount.textContent = (currentPhotoIndex + 1) + ' / ' + images.length;
     photoPrev.hidden = images.length < 2;
     photoNext.hidden = images.length < 2;
+    photoThumbnails?.querySelectorAll('button').forEach((button, i) => {
+      button.setAttribute('aria-pressed', String(i === currentPhotoIndex));
+      button.classList.toggle('is-active', i === currentPhotoIndex);
+    });
+    const selected = photoThumbnails?.children[currentPhotoIndex];
+    if (selected) {
+      const left = selected.offsetLeft - photoThumbnails.offsetLeft;
+      if (left < photoThumbnails.scrollLeft) photoThumbnails.scrollLeft = left;
+      else if (left + selected.offsetWidth > photoThumbnails.scrollLeft + photoThumbnails.clientWidth) photoThumbnails.scrollLeft = left + selected.offsetWidth - photoThumbnails.clientWidth;
+    }
   }
 
   function openPhoto(postId, trigger) {
@@ -113,6 +125,29 @@
     if (!post || !photoDialog) return;
     currentPost = post;
     currentPhotoIndex = 0;
+    if (photoThumbnails) {
+      photoThumbnails.replaceChildren();
+      photoThumbnails.hidden = post.images.length < 2;
+      if (post.images.length > 1) post.images.forEach((url, i) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute('aria-label', (i + 1) + '번째 사진 보기');
+        const img = document.createElement('img');
+        img.src = url + '?v=20261125'; img.alt = ''; img.loading = 'lazy';
+        button.append(img);
+        button.addEventListener('click', () => { currentPhotoIndex = i; renderPhoto(); });
+        photoThumbnails.append(button);
+      });
+      photoThumbnails.scrollLeft = 0;
+    }
+    if (photoNote) {
+      const text = post.media_checked === false && post.media_total > 1
+        ? '원본 사진·영상 ' + post.media_total + '개 · 현재 확보된 사진 ' + post.images.length + '장'
+        : post.media_checked && post.video_count && post.media_total > 1
+        ? '사진 ' + post.images.length + '장 · 원본 영상 ' + post.video_count + '개는 인스타그램에서 확인할 수 있습니다.' : '';
+      photoNote.textContent = text;
+      photoNote.hidden = !text;
+    }
     lastPhotoTrigger = trigger || null;
     document.querySelector('#photo-dialog-title').textContent = post.title;
     document.querySelector('#photo-dialog-meta').textContent = post.date + ' · ' + post.category;
