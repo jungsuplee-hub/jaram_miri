@@ -396,9 +396,11 @@ html.js .reveal.is-visible{opacity:1;transform:translateY(0)}
 /* Clipping horizontal overflow must not create a competing scroll container. */
 html{scroll-padding-top:calc(var(--site-header-height) + 12px)}
 body{overflow-x:clip}
-.site-header{position:sticky;top:0;z-index:100;background:#fcfaf5}
+.site-header{position:sticky;top:0;z-index:100;background:#fcfaf5;color:#253a31;font:15px/1.8 var(--sans)}
 /* Dropdown remains fully usable on short mobile screens. */
 @media(max-width:1080px){
  .site-header .mobile-nav:not([hidden]){position:absolute;top:100%;left:0;right:0;max-height:calc(100vh - var(--site-header-height));max-height:calc(100dvh - var(--site-header-height));overflow-y:auto;overscroll-behavior-y:contain;background:#fcfaf5}
 }
 @media(max-width:860px){:root{--site-header-height:76px}}
+
+@media(min-width:1081px) and (max-width:1100px){.desktop-nav{gap:12px}}

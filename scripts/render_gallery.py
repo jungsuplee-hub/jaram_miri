@@ -51,7 +51,7 @@ def page_head(home):
  head=head.replace('href="styles.css"','href="styles.css"')
  head=head.replace('gallery.css?v=20261121-5','gallery.css?v=20261125-caption5')
  head=head.replace('script.js?v=20261121-5','script.js?v=20261125-sticky1')
- head=head.replace('<script src="script.js?v=20261125-sticky1" defer></script>','<link rel="stylesheet" href="activities-full.css?v=20261125-grid4">\n  <script src="script.js?v=20261125-sticky1" defer></script>\n  <script src="activities-full.js?v=20261121-7" defer></script>')
+ head=head.replace('<script src="script.js?v=20261125-sticky1" defer></script>','<link rel="stylesheet" href="activities-full.css?v=20261125-grid5">\n  <script src="script.js?v=20261125-sticky1" defer></script>\n  <script src="activities-full.js?v=20261121-7" defer></script>')
  # Keep canonical and OpenGraph URLs correct whenever the Instagram gallery
  # renderer rebuilds the archive page from the homepage HTML head.
  head=re.sub(r'<meta\s+name="description"[^>]*>', '<meta name="description" content="자람원예치료연구소의 실제 현장 기록. 장애인 원예치료, 어르신 돌봄, 치매·인지지원, 아동·청소년 원예교육, 강사 연수 등 프로그램별 사진과 활동 내용을 확인하세요.">', head, count=1)
@@ -146,6 +146,17 @@ def main():
  </section></main>
  '''+footer+'\n'+dialog+'\n<script type="application/json" id="photo-gallery-data">'+payload(posts)+'</script>\n</body></html>'
  ARCHIVE.write_text(archive,encoding='utf-8')
+ # The homepage is the canonical shared navigation. Rebuild it on all static pages.
+ shared_header=page_nav(home)
+ font_link=re.search(r'<link[^>]*href="https://fonts.googleapis.com/[^>]+>',home).group(0)
+ for name in ('faq.html','credits.html'):
+  path=ROOT/name;raw=path.read_text(encoding='utf-8')
+  raw,count=re.subn(r'<header\b[^>]*class="site-header"[^>]*>.*?</header>',lambda m:shared_header,raw,count=1,flags=re.S)
+  assert count==1,name
+  if 'fonts.googleapis.com/css2' not in raw:raw=raw.replace('</head>',font_link+'\n</head>',1)
+  if not re.search(r'<script[^>]+src="script\.js',raw):raw=raw.replace('</body>','<script src="script.js?v=20261125-sticky1" defer></script>\n</body>',1)
+  path.write_text(raw,encoding='utf-8')
+
  print('generated',len(posts),'cases',sum(len(p['images']) for p in posts),'photos','categories',dict(types))
  # Rebuild image sitemap + per-page organization/FAQ schema after every update.
  import subprocess,sys

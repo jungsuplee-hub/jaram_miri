@@ -1,7 +1,6 @@
 /* Program-indexed local activity archive. */
 .archive-page {background:#faf9f3;color:#20392c}
 .archive-page [hidden] {display:none!important}
-.archive-page .site-header{background:rgba(250,249,243,.97)}
 .archive-hero {background:#eaf0e7;position:relative;overflow:hidden;padding:76px 0 92px;border-bottom:1px solid #d8e1d3}
 .archive-hero:after {content:'✳';position:absolute;right:-22px;bottom:-230px;font-size:520px;font-weight:100;color:rgba(57,100,70,.06);line-height:1;pointer-events:none}
 .archive-back {display:inline-flex;align-items:center;font-size:12px;font-weight:700;color:#5b795c;margin-bottom:45px;border-bottom:1px solid #a8bba8;padding-bottom:7px}
