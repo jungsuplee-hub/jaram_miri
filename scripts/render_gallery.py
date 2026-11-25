@@ -124,7 +124,7 @@ def main():
     <div class="field-gallery archive-grid">{cards}</div></section>'''.format(cat=escape(key,quote=True),name=escape(title),desc=escape(desc),num=len(items),cards='\n'.join(card(p) for p in items)))
  dialog=page_dialog(home)
  footer=page_footer(home)
- archive='''<!doctype html><html lang="ko">'''+page_head(home)+'''<body class="archive-page">
+ archive='''<!doctype html><html lang="ko">'''+page_head(home)+'''<body class="archive-page" id="top">
  <a class="skip-link" href="#main">본문으로 바로가기</a>
  '''+page_nav(home)+'''
  <main id="main">
