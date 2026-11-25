@@ -20,9 +20,9 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20261122-notes2">
   <link rel="stylesheet" href="activity-styles.css?v=20261122-notes2">
-  <link rel="stylesheet" href="gallery.css?v=20261125-media2">
+  <link rel="stylesheet" href="gallery.css?v=20261125-media3">
   <link rel="stylesheet" href="activities-full.css?v=20261125-grid3">
-  <script src="script.js?v=20261125-media2" defer></script>
+  <script src="script.js?v=20261125-media3" defer></script>
   <script src="activities-full.js?v=20261121-7" defer></script>
   <title>원예치료·원예교육 실제 활동 사진 | 자람원예치료연구소</title>
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
@@ -5427,7 +5427,8 @@
     <div class="photo-dialog-shell">
       <button type="button" class="photo-dialog-close" id="photo-dialog-close" aria-label="사진 창 닫기">×</button>
       <div class="photo-dialog-stage">
-        <img id="photo-dialog-image" class="photo-dialog-image" alt="">
+        <img id="photo-dialog-image" class="photo-dialog-image" alt="" hidden>
+        <div id="photo-dialog-loading" class="photo-dialog-loading" role="status" hidden><span class="photo-loading-spinner" aria-hidden="true"></span><span>사진을 불러오는 중입니다.</span></div>
         <video id="photo-dialog-video" class="photo-dialog-video" controls playsinline preload="metadata" hidden></video>
         <p id="photo-dialog-error" class="photo-dialog-error" hidden>사진 또는 영상을 표시할 수 없습니다. 다른 항목을 선택하거나 인스타그램 원문을 확인해 주세요.</p>
         <button type="button" class="photo-dialog-arrow photo-dialog-prev" id="photo-prev" aria-label="이전 사진">‹</button>

@@ -322,3 +322,10 @@
 .photo-dialog-video[hidden]{display:none!important}
 .photo-thumbnails button{position:relative}
 .photo-thumbnails .video-thumb-mark{position:absolute;bottom:3px;right:3px;background:#173c28;color:#fff;padding:1px 4px;border-radius:3px;font-size:10px}
+
+/* Never reveal a previous activity image while loading a new selection. */
+.photo-dialog-loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:20px;color:#e5eee4;font:500 13px/1.5 var(--sans);text-align:center}
+.photo-dialog-loading[hidden]{display:none!important}
+.photo-loading-spinner{width:20px;height:20px;flex:0 0 20px;border:2px solid #ffffff40;border-top-color:#e5eee4;border-radius:50%;animation:photo-load-spin .8s linear infinite}
+@keyframes photo-load-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.photo-loading-spinner{animation:none}}

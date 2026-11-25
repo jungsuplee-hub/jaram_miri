@@ -81,10 +81,12 @@
   }
   const photoPosts = new Map(photoData.map((post) => [post.id, post]));
   const photoDialog = document.querySelector('#photo-dialog');
-  const photoImage = document.querySelector('#photo-dialog-image');
-  const photoVideo = document.querySelector('#photo-dialog-video');
+  let photoImage = document.querySelector('#photo-dialog-image');
+  let photoVideo = document.querySelector('#photo-dialog-video');
+  const photoStage = document.querySelector('.photo-dialog-stage');
+  const photoLoading = document.querySelector('#photo-dialog-loading');
   const mediaItems = post => Array.isArray(post?.media) && post.media.length ? post.media : (post?.images || []).map(src => ({type:'image',src}));
-  function stopVideo() { if (photoVideo) { photoVideo.pause(); photoVideo.hidden=true; photoVideo.removeAttribute('src'); photoVideo.load(); } }
+  function stopVideo() { if (photoVideo) { photoVideo.hidden=true; photoVideo.pause(); photoVideo.removeAttribute('src'); photoVideo.removeAttribute('poster'); photoVideo.load(); } }
   const photoError = document.querySelector('#photo-dialog-error');
   const photoPrev = document.querySelector('#photo-prev');
   const photoNext = document.querySelector('#photo-next');
@@ -95,24 +97,80 @@
   let currentPhotoIndex = 0;
   let lastPhotoTrigger = null;
   let previousBodyOverflow = '';
-  let photoRetry = false;
+  let mediaGeneration = 0;
+
+  function clearMedia() {
+    ++mediaGeneration;
+    if (photoImage) {
+      photoImage.hidden = true;
+      photoImage.removeAttribute('src');
+      photoImage.alt = '';
+    }
+    stopVideo();
+    if (photoLoading) photoLoading.hidden = true;
+    if (photoError) photoError.hidden = true;
+    photoStage?.removeAttribute('aria-busy');
+  }
 
   function renderPhoto() {
     if (!currentPost || !photoDialog) return;
+    clearMedia();
     const images = mediaItems(currentPost);
-    if (!images.length) return;
+    if (!images.length) {
+      photoError.hidden = false;
+      photoCount.textContent = '';
+      photoPrev.hidden = photoNext.hidden = true;
+      return;
+    }
     currentPhotoIndex = (currentPhotoIndex + images.length) % images.length;
-    photoRetry = false;
-    photoError.hidden = true;
-    stopVideo();
+    const generation = mediaGeneration;
+    const active = () => generation === mediaGeneration && !!currentPost;
     const item = images[currentPhotoIndex];
-    photoImage.hidden = item.type === 'video';
-    if (item.type === 'video' && photoVideo) {
-      photoImage.removeAttribute('src');
-      photoVideo.poster = item.poster || ''; photoVideo.src = item.src; photoVideo.hidden = false;
+    const isVideo = item.type === 'video' && photoVideo;
+    if (photoLoading) {
+      photoLoading.querySelector('span:last-child').textContent = isVideo ? '영상을 불러오는 중입니다.' : '사진을 불러오는 중입니다.';
+      photoLoading.hidden = false;
+    }
+    photoStage?.setAttribute('aria-busy', 'true');
+    const finish = (node, failed = false) => {
+      if (!active()) return;
+      if (photoLoading) photoLoading.hidden = true;
+      photoStage?.removeAttribute('aria-busy');
+      node.hidden = failed;
+      photoError.hidden = !failed;
+    };
+    // A fresh media element prevents the browser from painting its previous frame
+    // while the next URL is loading. Old callbacks cannot affect a new selection.
+    if (isVideo) {
+      const video = photoVideo.cloneNode(false);
+      video.hidden = true;
+      photoVideo.replaceWith(video);
+      photoVideo = video;
+      video.addEventListener('loadedmetadata', () => finish(video), {once:true});
+      video.addEventListener('error', () => finish(video, true), {once:true});
+      video.poster = item.poster || '';
+      video.src = item.src;
     } else {
-      photoImage.alt = currentPost.title + ' - ' + (currentPhotoIndex + 1) + '번째 사진';
-      photoImage.src = item.src + '?v=3';
+      const loadImage = (retry = false) => {
+        if (!active()) return;
+        const image = photoImage.cloneNode(false);
+        image.hidden = true;
+        image.removeAttribute('src');
+        image.alt = currentPost.title + ' - ' + (currentPhotoIndex + 1) + '번째 사진';
+        photoImage.replaceWith(image);
+        photoImage = image;
+        image.addEventListener('load', async () => {
+          try { if (image.decode) await image.decode(); } catch (_) { /* a loaded image can still be displayed */ }
+          if (active() && image === photoImage && image.naturalWidth > 0) finish(image);
+        }, {once:true});
+        image.addEventListener('error', () => {
+          if (!active() || image !== photoImage) return;
+          if (!retry) loadImage(true);
+          else finish(image, true);
+        }, {once:true});
+        image.src = item.src + (retry ? '?v=3&retry=1' : '?v=3');
+      };
+      loadImage();
     }
     photoCount.textContent = (currentPhotoIndex + 1) + ' / ' + images.length;
     photoPrev.hidden = images.length < 2;
@@ -174,15 +232,16 @@
     document.querySelector('#photo-dialog-caption').textContent = post.caption || '';
     previousBodyOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    if (typeof photoDialog.showModal === 'function') photoDialog.showModal();
-    else photoDialog.setAttribute('open', '');
     renderPhoto();
+    if (typeof photoDialog.showModal === 'function' && !photoDialog.open) photoDialog.showModal();
+    else photoDialog.setAttribute('open', '');
     document.querySelector('#photo-dialog-close').focus();
   }
 
   function closePhoto() {
     if (!photoDialog) return;
-    stopVideo();
+    clearMedia();
+    currentPost = null;
     if (typeof photoDialog.close === 'function' && photoDialog.open) photoDialog.close();
     else {
       photoDialog.removeAttribute('open');
@@ -200,8 +259,9 @@
   });
   document.querySelector('#photo-dialog-close')?.addEventListener('click', closePhoto);
   photoDialog?.addEventListener('close', () => {
+    if (photoDialog.open) return;
     document.body.style.overflow = previousBodyOverflow;
-    stopVideo();
+    clearMedia();
     currentPost = null;
     lastPhotoTrigger?.focus();
   });
@@ -228,26 +288,14 @@
       renderPhoto();
     } else if (event.key === 'Escape') closePhoto();
   });
-  photoImage?.addEventListener('error', () => {
-    if (!currentPost || photoImage.hidden) return;
-    if (!photoRetry) {
-      photoRetry = true;
-      photoImage.src = mediaItems(currentPost)[currentPhotoIndex].src + '?v=3&retry=1';
-    } else {
-      photoImage.hidden = true;
-      photoError.hidden = false;
-    }
-  });
-
-  photoVideo?.addEventListener('error', () => { if (currentPost && !photoVideo.hidden && photoVideo.getAttribute('src')) photoError.hidden=false; });
-
   // Mobile: swipe horizontally between photos, with vertically scrollable descriptions.
   let touchStart = null;
-  photoImage?.addEventListener('touchstart', (event) => {
+  photoStage?.addEventListener('touchstart', (event) => {
+    if (event.target.closest('video,button')) { touchStart = null; return; }
     const touch = event.changedTouches[0];
     touchStart = { x: touch.clientX, y: touch.clientY };
   }, { passive: true });
-  photoImage?.addEventListener('touchend', (event) => {
+  photoStage?.addEventListener('touchend', (event) => {
     if (!touchStart || !currentPost || mediaItems(currentPost).length < 2) return;
     const touch = event.changedTouches[0];
     const dx = touch.clientX - touchStart.x;
@@ -258,6 +306,8 @@
     }
     touchStart = null;
   }, { passive: true });
+
+  photoStage?.addEventListener('touchcancel', () => { touchStart = null; }, {passive:true});
 
   // Protect existing activity photos from occasional stale CDN/error responses.
   document.querySelectorAll('img[src*="assets/instagram/"]').forEach((img) => {
