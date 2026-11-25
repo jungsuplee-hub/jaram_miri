@@ -512,11 +512,24 @@
     "date": "2024.10.01",
     "caption": "",
     "images": [
-      "assets/instagram/DAkMyy2Tu3O-archive.jpg"
+      "assets/instagram/DAkMyy2Tu3O-carousel-01.jpg",
+      "assets/instagram/DAkMyy2Tu3O-carousel-02.jpg"
     ],
     "source": "https://www.instagram.com/p/DAkMyy2Tu3O/",
     "media_total": 2,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/instagram/DAkMyy2Tu3O-carousel-01.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/DAkMyy2Tu3O-carousel-02.jpg"
+      }
+    ],
+    "video_count": 0,
+    "media_unavailable": 0
   },
   {
     "id": "DAkMIA4u_d_",
