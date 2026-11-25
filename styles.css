@@ -390,3 +390,15 @@ html.js .reveal.is-visible{opacity:1;transform:translateY(0)}
 /* Additional public community links: compact desktop nav; retain accessible mobile menu. */
 @media(min-width:1081px){.header-inner{gap:20px}.desktop-nav{gap:clamp(9px,1.05vw,21px)}.desktop-nav a{font-size:12px}}
 @media(min-width:861px) and (max-width:1080px){.desktop-nav,.header-contact{display:none}.header-inner{justify-content:space-between}.menu-toggle{display:flex}.mobile-nav:not([hidden]){display:flex}}
+
+/* Keep the shared navigation visible throughout long pages. */
+:root{--site-header-height:93px}
+/* Clipping horizontal overflow must not create a competing scroll container. */
+html{scroll-padding-top:calc(var(--site-header-height) + 12px)}
+body{overflow-x:clip}
+.site-header{position:sticky;top:0;z-index:100;background:#fcfaf5}
+/* Dropdown remains fully usable on short mobile screens. */
+@media(max-width:1080px){
+ .site-header .mobile-nav:not([hidden]){position:absolute;top:100%;left:0;right:0;max-height:calc(100vh - var(--site-header-height));max-height:calc(100dvh - var(--site-header-height));overflow-y:auto;overscroll-behavior-y:contain;background:#fcfaf5}
+}
+@media(max-width:860px){:root{--site-header-height:76px}}

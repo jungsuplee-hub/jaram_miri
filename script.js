@@ -26,7 +26,7 @@
     document.addEventListener('click', (event) => {
       if (!menu.hidden && !menu.contains(event.target) && !toggle.contains(event.target)) closeMenu();
     });
-    window.matchMedia('(min-width: 861px)').addEventListener('change', (event) => {
+    window.matchMedia('(min-width: 1081px)').addEventListener('change', (event) => {
       if (event.matches) closeMenu();
     });
   }

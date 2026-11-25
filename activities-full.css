@@ -27,7 +27,7 @@
 .archive-options label{font-size:10px;font-weight:700;color:#728474}
 .archive-options select{font:600 12px var(--sans);min-width:118px;background:#fff;border:1px solid #ccdacb;color:#294d37;padding:9px 28px 9px 11px;cursor:pointer;border-radius:0}
 .archive-result{font:600 12px var(--sans);color:#748675;margin:20px 0 42px;text-align:right}
-.archive-section{margin-bottom:75px;scroll-margin-top:110px}
+.archive-section{margin-bottom:75px;scroll-margin-top:0}
 .archive-section-heading{display:flex;justify-content:space-between;align-items:end;gap:20px;border-bottom:1px solid #cbdbca;padding:0 2px 22px;margin-bottom:28px}
 .archive-section-heading h2{font:400 clamp(24px,3vw,36px)/1.4 var(--serif);color:#244b3c;margin:8px 0 9px;letter-spacing:-1px}
 .archive-section-heading p{font-size:12px;color:#879686;margin:0}
