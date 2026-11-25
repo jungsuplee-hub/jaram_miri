@@ -404,3 +404,29 @@ body{overflow-x:clip}
 @media(max-width:860px){:root{--site-header-height:76px}}
 
 @media(min-width:1081px) and (max-width:1100px){.desktop-nav{gap:12px}}
+
+/* Shared compact navigation: the same layout at every mobile breakpoint. */
+@media(max-width:1080px){
+ :root{--site-header-height:72px}
+ .site-header{height:var(--site-header-height);width:100%;isolation:isolate;overflow:visible}
+ .site-header .header-inner{width:calc(100% - 32px);height:100%;display:flex;flex-wrap:nowrap;justify-content:space-between;align-items:center;gap:12px}
+ .site-header .brand{display:flex;flex:0 1 auto;gap:10px;min-width:0;white-space:nowrap}
+ .site-header .brand-mark{display:grid;flex:0 0 48px;width:48px;height:48px;min-width:48px;min-height:48px;place-items:center}
+ .site-header .brand-mark img{display:block;width:48px;height:48px;max-width:100%;object-fit:contain;aspect-ratio:1;border-radius:50%}
+ .site-header .brand-type{display:flex;flex-direction:column;gap:4px;min-width:0}
+ .site-header .brand-type strong{font-size:26px;line-height:1.1}
+ .site-header .brand-type small{font-size:10px;line-height:1.25;letter-spacing:1px}
+ .site-header .desktop-nav,.site-header .header-contact{display:none}
+ .site-header .menu-toggle{display:flex;flex:0 0 44px;width:44px;height:44px;min-width:44px;min-height:44px;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0;margin:0 0 0 auto;border:1px solid #ccd9c9;border-radius:3px;background:#fcfaf5;cursor:pointer;-webkit-tap-highlight-color:transparent}
+ .site-header .mobile-nav[hidden]{display:none!important}
+ .site-header .mobile-nav:not([hidden]){display:flex;flex-direction:column;align-items:stretch;gap:0;box-sizing:border-box;width:100%;padding:8px 20px 16px;border-top:1px solid #e6e7dd;box-shadow:0 12px 24px #2345311a;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;max-height:calc(100vh - var(--site-header-height));max-height:calc(100dvh - var(--site-header-height))}
+ .site-header .mobile-nav a{display:block;flex:0 0 auto;min-height:44px;padding:11px 8px;border-bottom:1px solid #ebecdf;font-size:14px;font-weight:600;line-height:1.6;white-space:normal}
+ .site-header .mobile-nav a:last-child{border-bottom:0}
+}
+@media(max-width:360px){
+ .site-header .header-inner{width:calc(100% - 24px);gap:8px}
+ .site-header .brand-mark{flex-basis:42px;width:42px;height:42px;min-width:42px;min-height:42px}
+ .site-header .brand-mark img{width:42px;height:42px}
+ .site-header .brand-type strong{font-size:24px}
+ .site-header .brand-type small{font-size:9px}
+}
