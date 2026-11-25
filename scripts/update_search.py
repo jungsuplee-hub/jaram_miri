@@ -60,7 +60,7 @@ def schema_graph(page: str, posts: list[dict]) -> dict:
         'image': DOMAIN + 'assets/og-cover.png',
         'telephone': '+82-10-9566-5407',
         'email': 'ymr13@daum.net',
-        'sameAs': [INSTAGRAM],
+        'sameAs': [INSTAGRAM, 'https://www.threads.com/@jaram_miri'],
         'contactPoint': {
             '@type': 'ContactPoint', 'contactType': 'program inquiries',
             'telephone': '+82-10-9566-5407', 'email': 'ymr13@daum.net',

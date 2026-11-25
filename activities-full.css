@@ -56,3 +56,5 @@
 @media(min-width:721px) and (max-width:1050px){.archive-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){.archive-grid .field-card{grid-template-columns:1fr;min-height:0}.archive-grid .field-photo{aspect-ratio:4/3;height:auto;min-height:0}.archive-grid .field-info{min-height:190px;padding:14px 12px}}
 @media(max-width:395px){.archive-grid .field-info{min-height:0}}
+
+.archive-bottom{flex-wrap:wrap}

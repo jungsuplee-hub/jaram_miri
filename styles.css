@@ -430,3 +430,5 @@ body{overflow-x:clip}
  .site-header .brand-type strong{font-size:24px}
  .site-header .brand-type small{font-size:9px}
 }
+
+.story-social-links{margin-top:auto;display:flex;flex-direction:column;align-items:flex-start;gap:9px}.story-connect .story-social-links .inline-link{margin:0;white-space:nowrap}

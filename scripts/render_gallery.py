@@ -51,7 +51,7 @@ def page_head(home):
  head=head.replace('href="styles.css"','href="styles.css"')
  head=head.replace('gallery.css?v=20261121-5','gallery.css?v=20261125-caption5')
  head=head.replace('script.js?v=20261121-5','script.js?v=20261125-media6')
- head=head.replace('<script src="script.js?v=20261125-media6" defer></script>','<link rel="stylesheet" href="activities-full.css?v=20261125-grid5">\n  <script src="script.js?v=20261125-media6" defer></script>\n  <script src="activities-full.js?v=20261121-7" defer></script>')
+ head=head.replace('<script src="script.js?v=20261125-media6" defer></script>','<link rel="stylesheet" href="activities-full.css?v=20261125-grid6">\n  <script src="script.js?v=20261125-media6" defer></script>\n  <script src="activities-full.js?v=20261121-7" defer></script>')
  # Keep canonical and OpenGraph URLs correct whenever the Instagram gallery
  # renderer rebuilds the archive page from the homepage HTML head.
  head=re.sub(r'<meta\s+name="description"[^>]*>', '<meta name="description" content="자람원예치료연구소의 실제 현장 기록. 장애인 원예치료, 어르신 돌봄, 치매·인지지원, 아동·청소년 원예교육, 강사 연수 등 프로그램별 사진과 활동 내용을 확인하세요.">', head, count=1)
@@ -142,7 +142,7 @@ def main():
   <p class="archive-result" id="archive-result" role="status" aria-live="polite">총 '''+str(len(posts))+'''건의 활동 사례</p>
   <div id="archive-groups">'''+''.join(blocks)+'''</div>
   <div class="archive-empty" id="archive-empty" hidden>선택한 유형과 연도에 해당하는 활동이 없습니다. 다른 조건을 선택해 주세요.</div>
-  <div class="archive-bottom"><a href="index.html#activities">← 연구소 소개로 돌아가기</a><a href="https://www.instagram.com/jaram_miri/" target="_blank" rel="noopener noreferrer">인스타그램에서 더 보기 ↗</a></div>
+  <div class="archive-bottom"><a href="index.html#activities">← 연구소 소개로 돌아가기</a><a href="https://www.instagram.com/jaram_miri/" target="_blank" rel="noopener noreferrer">인스타그램에서 더 보기 ↗</a><a href="https://www.threads.com/@jaram_miri" target="_blank" rel="noopener noreferrer">스레드에서 더 보기 ↗</a></div>
  </section></main>
  '''+footer+'\n'+dialog+'\n<script type="application/json" id="photo-gallery-data">'+payload(posts)+'</script>\n</body></html>'
  ARCHIVE.write_text(archive,encoding='utf-8')
