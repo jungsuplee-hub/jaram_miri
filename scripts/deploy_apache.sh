@@ -70,6 +70,7 @@ assert (root/'secret/index.php').is_file(), 'Private administrator page must be 
 assert (root/'board/index.php').is_file(), 'Public community board must be preserved'
 assert (root/'secret/community.php').is_file(), 'Community administration must be preserved'
 assert (root/'secret/editor.php').is_file(), 'Content editor must be preserved'
+assert (root/'secret/editor-view.php').is_file(), 'Visual editor must be preserved'
 assert not (root/'backups/community.xml').exists(), 'Backup must not be served by Apache'
 assert (root/'preview').is_dir(), 'Approved preview directory must not be deleted by deploy'
 print('JARAM Apache publish verified:', root)

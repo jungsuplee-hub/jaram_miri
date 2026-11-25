@@ -51,7 +51,7 @@ def page_head(home):
  head=head.replace('href="styles.css"','href="styles.css"')
  head=head.replace('gallery.css?v=20261121-5','gallery.css?v=20261125-media2')
  head=head.replace('script.js?v=20261121-5','script.js?v=20261125-media2')
- head=head.replace('<script src="script.js?v=20261125-media2" defer></script>','<link rel="stylesheet" href="activities-full.css?v=20261121-7">\n  <script src="script.js?v=20261125-media2" defer></script>\n  <script src="activities-full.js?v=20261121-7" defer></script>')
+ head=head.replace('<script src="script.js?v=20261125-media2" defer></script>','<link rel="stylesheet" href="activities-full.css?v=20261125-grid3">\n  <script src="script.js?v=20261125-media2" defer></script>\n  <script src="activities-full.js?v=20261121-7" defer></script>')
  # Keep canonical and OpenGraph URLs correct whenever the Instagram gallery
  # renderer rebuilds the archive page from the homepage HTML head.
  head=re.sub(r'<meta\s+name="description"[^>]*>', '<meta name="description" content="자람원예치료연구소의 실제 현장 기록. 장애인 원예치료, 어르신 돌봄, 치매·인지지원, 아동·청소년 원예교육, 강사 연수 등 프로그램별 사진과 활동 내용을 확인하세요.">', head, count=1)
