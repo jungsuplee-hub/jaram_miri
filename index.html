@@ -22,9 +22,9 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20261122-notes2">
   <link rel="stylesheet" href="activity-styles.css?v=20261122-notes2">
-  <link rel="stylesheet" href="gallery.css?v=20261125-media3">
+  <link rel="stylesheet" href="gallery.css?v=20261125-caption4">
   <link rel="stylesheet" href="main-profile.css?v=20261121-2">
-  <script src="script.js?v=20261125-media3" defer></script>
+  <script src="script.js?v=20261125-caption4" defer></script>
   <title>자람원예치료연구소 | 원예치료·원예교육·맞춤형 원예키트</title>
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <script type="application/ld+json" id="site-structured-data">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://jaram-miri.kro.kr/#organization","name":"자람원예치료연구소","alternateName":"JARAM Horticultural Therapy Lab","url":"https://jaram-miri.kro.kr/","description":"참여자에 맞춘 원예치료와 원예교육, 맞춤형 원예활동 키트 및 원예치료 컨설팅을 소개하는 연구소.","logo":{"@type":"ImageObject","url":"https://jaram-miri.kro.kr/assets/jaram-instagram-logo.png"},"image":"https://jaram-miri.kro.kr/assets/og-cover.png","telephone":"+82-10-9566-5407","email":"ymr13@daum.net","sameAs":["https://www.instagram.com/jaram_miri/"],"contactPoint":{"@type":"ContactPoint","contactType":"program inquiries","telephone":"+82-10-9566-5407","email":"ymr13@daum.net","url":"https://business.inpock.co.kr/form?partner=ymr13","availableLanguage":["ko"]}},{"@type":"WebSite","@id":"https://jaram-miri.kro.kr/#website","name":"자람원예치료연구소","url":"https://jaram-miri.kro.kr/","inLanguage":"ko-KR","publisher":{"@id":"https://jaram-miri.kro.kr/#organization"}},{"@type":"WebPage","@id":"https://jaram-miri.kro.kr/#webpage","name":"자람원예치료연구소 | 원예치료·원예교육·맞춤형 원예키트","description":"유미리 대표의 자람원예치료연구소. 아동·청소년·어르신·장애인 대상 맞춤 원예치료, 학교 원예교육, 전문인력 교육, 원예활동 키트·컨설팅 및 실제 활동 사진을 소개합니다.","url":"https://jaram-miri.kro.kr/","inLanguage":"ko-KR","isPartOf":{"@id":"https://jaram-miri.kro.kr/#website"},"about":{"@id":"https://jaram-miri.kro.kr/#organization"}},{"@type":"Service","name":"대상자 맞춤 프로그램","serviceType":"대상자 특성에 맞춘 원예치료 및 원예활동 프로그램","provider":{"@id":"https://jaram-miri.kro.kr/#organization"}},{"@type":"Service","name":"교육 및 전문가 양성","serviceType":"학교·복지기관 원예교육과 강사·전문인력 교육","provider":{"@id":"https://jaram-miri.kro.kr/#organization"}},{"@type":"Service","name":"맞춤형 원예활동 키트","serviceType":"기관의 목적과 대상에 맞춘 원예활동 키트 구성·제작","provider":{"@id":"https://jaram-miri.kro.kr/#organization"}},{"@type":"Service","name":"원예치료 컨설팅","serviceType":"참여자·운영 목적·현장 여건에 맞춘 원예치료 상담","provider":{"@id":"https://jaram-miri.kro.kr/#organization"}},{"@type":"Book","name":"행복 자람 원예교실","author":[{"@type":"Person","name":"유미리"},{"@type":"Person","name":"이영기"},{"@type":"Person","name":"손장호"}],"publisher":{"@type":"Organization","name":"교우미디어"},"datePublished":"2022-05-25","isbn":"9791185417424","inLanguage":"ko-KR","url":"https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=295674275"}]}</script>
@@ -5737,11 +5737,16 @@
         <span class="photo-dialog-meta" id="photo-dialog-meta"></span>
         <h3 id="photo-dialog-title"></h3>
         <p id="photo-dialog-summary"></p>
-        <a id="photo-dialog-source" class="photo-dialog-source" href="https://www.instagram.com/jaram_miri/" target="_blank" rel="noopener noreferrer">인스타그램 원문 보기 ↗</a>
-        <div class="photo-dialog-caption-wrap" id="photo-dialog-caption-wrap">
-          <div class="photo-dialog-subtitle">게시글 내용</div>
+        <div class="photo-dialog-caption-wrap" id="photo-dialog-caption-wrap" hidden>
+          <div class="photo-dialog-subtitle">활동 상세 내용</div>
           <p class="photo-dialog-caption" id="photo-dialog-caption"></p>
         </div>
+        <section class="photo-original-wrap" id="photo-original-wrap" aria-label="인스타그램 원문" hidden>
+          <h4>인스타그램 게시글</h4>
+          <p class="photo-original-help">원본 게시글을 아래에서 확인할 수 있습니다. 인스타그램에서 제공하는 화면이며, 표시되지 않으면 원문 링크를 이용해 주세요.</p>
+          <div id="photo-original-frame"></div>
+        </section>
+        <a id="photo-dialog-source" class="photo-dialog-source" href="https://www.instagram.com/jaram_miri/" target="_blank" rel="noopener noreferrer">인스타그램 원문 보기 ↗</a>
       </div>
     </div>
   </dialog>

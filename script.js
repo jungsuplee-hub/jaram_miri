@@ -93,6 +93,24 @@
   const photoCount = document.querySelector('#photo-count');
   const photoThumbnails = document.querySelector('#photo-thumbnails');
   const photoNote = document.querySelector('#photo-collection-note');
+  const originalWrap = document.querySelector('#photo-original-wrap');
+  const originalFrame = document.querySelector('#photo-original-frame');
+  function clearOriginal() { originalFrame?.replaceChildren(); if (originalWrap) originalWrap.hidden = true; }
+  function showOriginal(post, hasCaption) {
+    clearOriginal();
+    if (hasCaption || !originalWrap || !originalFrame) return;
+    const match = /^https:\/\/www\.instagram\.com\/p\/([A-Za-z0-9_-]+)\/$/.exec(post.source || '');
+    if (!match) return;
+    const iframe = document.createElement('iframe');
+    iframe.title = post.title + ' 인스타그램 원문';
+    iframe.className = 'photo-original-embed';
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'no-referrer';
+    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox');
+    iframe.src = 'https://www.instagram.com/p/' + match[1] + '/embed/captioned/';
+    originalFrame.append(iframe);
+    originalWrap.hidden = false;
+  }
   let currentPost = null;
   let currentPhotoIndex = 0;
   let lastPhotoTrigger = null;
@@ -228,8 +246,12 @@
       if (!sourceLink.hidden) sourceLink.href = post.source;
     }
     const captionWrap = document.querySelector('#photo-dialog-caption-wrap');
-    captionWrap.hidden = !post.caption;
-    document.querySelector('#photo-dialog-caption').textContent = post.caption || '';
+    const caption = typeof post.caption === 'string' ? post.caption.trim() : '';
+    captionWrap.hidden = !caption;
+    document.querySelector('#photo-dialog-caption').textContent = caption;
+    showOriginal(post, !!caption);
+    const info = photoDialog.querySelector('.photo-dialog-info');
+    if (info) info.scrollTop = 0;
     previousBodyOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     renderPhoto();
@@ -241,6 +263,7 @@
   function closePhoto() {
     if (!photoDialog) return;
     clearMedia();
+    clearOriginal();
     currentPost = null;
     if (typeof photoDialog.close === 'function' && photoDialog.open) photoDialog.close();
     else {
@@ -262,6 +285,7 @@
     if (photoDialog.open) return;
     document.body.style.overflow = previousBodyOverflow;
     clearMedia();
+    clearOriginal();
     currentPost = null;
     lastPhotoTrigger?.focus();
   });

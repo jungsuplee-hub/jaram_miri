@@ -329,3 +329,12 @@
 .photo-loading-spinner{width:20px;height:20px;flex:0 0 20px;border:2px solid #ffffff40;border-top-color:#e5eee4;border-radius:50%;animation:photo-load-spin .8s linear infinite}
 @keyframes photo-load-spin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.photo-loading-spinner{animation:none}}
+
+/* Full locally supplied captions, otherwise the official original post. */
+.photo-dialog-caption{font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:none;display:block;-webkit-line-clamp:unset}
+.photo-original-wrap{margin:24px 0 12px;padding-top:18px;border-top:1px solid #e0e8dc}
+.photo-original-wrap[hidden]{display:none!important}
+.photo-original-wrap h4{font-size:14px;font-weight:700;color:#315940;margin:0 0 8px}
+.photo-original-help{font-size:11px;line-height:1.7;color:#637a66;margin:0 0 12px}
+.photo-original-embed{display:block;width:100%;height:clamp(450px,75dvh,850px);background:white;border:1px solid #dce4d9;border-radius:5px}
+@media(max-width:720px){.photo-original-embed{height:650px}.photo-dialog-caption{font-size:13px}}
