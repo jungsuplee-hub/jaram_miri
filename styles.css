@@ -389,7 +389,7 @@ html.js .reveal.is-visible{opacity:1;transform:translateY(0)}
 
 /* Additional public community links: compact desktop nav; retain accessible mobile menu. */
 @media(min-width:1081px){.header-inner{gap:20px}.desktop-nav{gap:clamp(9px,1.05vw,21px)}.desktop-nav a{font-size:12px}}
-@media(min-width:861px) and (max-width:1080px){.desktop-nav,.header-contact{display:none}.header-inner{justify-content:space-between}.menu-toggle{display:flex}.mobile-nav:not([hidden]){display:flex}}
+@media(min-width:861px) and (max-width:1200px){.desktop-nav,.header-contact{display:none}.header-inner{justify-content:space-between}.menu-toggle{display:flex}.mobile-nav:not([hidden]){display:flex}}
 
 /* Keep the shared navigation visible throughout long pages. */
 :root{--site-header-height:93px}
@@ -398,7 +398,7 @@ html{scroll-padding-top:calc(var(--site-header-height) + 12px)}
 body{overflow-x:clip}
 .site-header{position:sticky;top:0;z-index:100;background:#fcfaf5;color:#253a31;font:15px/1.8 var(--sans)}
 /* Dropdown remains fully usable on short mobile screens. */
-@media(max-width:1080px){
+@media(max-width:1200px), (hover:none) and (pointer:coarse){
  .site-header .mobile-nav:not([hidden]){position:absolute;top:100%;left:0;right:0;max-height:calc(100vh - var(--site-header-height));max-height:calc(100dvh - var(--site-header-height));overflow-y:auto;overscroll-behavior-y:contain;background:#fcfaf5}
 }
 @media(max-width:860px){:root{--site-header-height:76px}}
@@ -406,7 +406,7 @@ body{overflow-x:clip}
 @media(min-width:1081px) and (max-width:1100px){.desktop-nav{gap:12px}}
 
 /* Shared compact navigation: the same layout at every mobile breakpoint. */
-@media(max-width:1080px){
+@media(max-width:1200px), (hover:none) and (pointer:coarse){
  :root{--site-header-height:72px}
  .site-header{height:var(--site-header-height);width:100%;isolation:isolate;overflow:visible}
  .site-header .header-inner{width:calc(100% - 32px);height:100%;display:flex;flex-wrap:nowrap;justify-content:space-between;align-items:center;gap:12px}
@@ -432,3 +432,6 @@ body{overflow-x:clip}
 }
 
 .story-social-links{margin-top:auto;display:flex;flex-direction:column;align-items:flex-start;gap:9px}.story-connect .story-social-links .inline-link{margin:0;white-space:nowrap}
+
+/* Foldable/touch layouts must retain a visible hamburger, including wide touch viewports. */
+@media(max-width:1200px), (hover:none) and (pointer:coarse){.site-header .menu-toggle span{background:#244b3c;opacity:1;visibility:visible}.site-header .menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}.site-header .menu-toggle{color:#244b3c}.site-header .mobile-nav:not([hidden]){position:absolute;top:100%;left:0;right:0}}

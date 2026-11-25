@@ -310,6 +310,12 @@ def main():
     if args.dry_run:
         log('Dry run complete: no Codex call, no site changes')
         return
+    # Queue all new posts before the activity-only filter, which excludes notices.
+    try:
+        from social_notices import enqueue
+        enqueue(new, 'ig')
+    except Exception as exc:
+        raise RuntimeError('Notice queue unavailable; Instagram checkpoint preserved') from exc
     candidates = [p for p in new if candidate_filter(p)]
     if len(candidates)>20:
         raise RuntimeError('More than 20 candidate posts; manual review required')
@@ -324,3 +330,10 @@ if __name__=='__main__':
     except Exception as exc:
         log('FAILED:',type(exc).__name__,str(exc)[:400])
         sys.exit(1)
+    finally:
+        if '--run' in sys.argv:
+            try:
+                from social_notices import run as sync_notices
+                sync_notices()
+            except Exception as exc:
+                log('NOTICE SYNC FAILED:',type(exc).__name__,str(exc)[:180])

@@ -26,9 +26,10 @@
     document.addEventListener('click', (event) => {
       if (!menu.hidden && !menu.contains(event.target) && !toggle.contains(event.target)) closeMenu();
     });
-    window.matchMedia('(min-width: 1081px)').addEventListener('change', (event) => {
-      if (event.matches) closeMenu();
-    });
+    const compactMenu = window.matchMedia('(max-width: 1200px), (hover: none) and (pointer: coarse)');
+    const onLayoutChange = event => { if (!event.matches) closeMenu(); };
+    if (compactMenu.addEventListener) compactMenu.addEventListener('change', onLayoutChange);
+    else if (compactMenu.addListener) compactMenu.addListener(onLayoutChange);
   }
 
   // Filter only verifiable activity records, without hiding sources.
