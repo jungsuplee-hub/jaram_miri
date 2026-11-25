@@ -165,7 +165,7 @@ def main():
     failures=state.get('failures',{})
     # Retry failed or unavailable posts no more than once every 24 hours.
     now=time.time()
-    pending=[(i,p) for i,p in enumerate(posts) if p.get('media_checked') is False]
+    pending=[(i,p) for i,p in enumerate(posts) if p.get('media_checked') is False and not p.get('editor_images_locked')]
     ready=[(i,p) for i,p in pending if now-failures.get(p['id'],{}).get('at',0)>=86400]
     # Back off on explicit denial or rate limiting, rather than attempting workarounds.
     if now<state.get('blocked_until',0):
