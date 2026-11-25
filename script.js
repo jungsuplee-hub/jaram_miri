@@ -244,9 +244,7 @@
     if (photoNote) {
       const items = mediaItems(post);
       const videos = items.filter(m=>m.type==='video').length;
-      const pending = post.media_checked === false && post.media_total > items.length;
-      const missing = post.media_unavailable || (post.video_count && !post.media ? post.video_count : 0);
-      const text = pending ? '현재 ' + items.length + '개 · 원본 추가 자료 확인 중' : missing ? '일부 영상은 아직 재생 파일을 확보하지 못했습니다. 원문에서 확인해 주세요.' : videos ? '사진 ' + (items.length-videos) + '장 · 영상 ' + videos + '개' : '';
+      const text = videos ? '사진 ' + (items.length-videos) + '장 · 영상 ' + videos + '개' : '';
       photoNote.textContent = text;
       photoNote.hidden = !text;
     }
