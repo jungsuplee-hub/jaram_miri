@@ -82,6 +82,9 @@
   const photoPosts = new Map(photoData.map((post) => [post.id, post]));
   const photoDialog = document.querySelector('#photo-dialog');
   const photoImage = document.querySelector('#photo-dialog-image');
+  const photoVideo = document.querySelector('#photo-dialog-video');
+  const mediaItems = post => Array.isArray(post?.media) && post.media.length ? post.media : (post?.images || []).map(src => ({type:'image',src}));
+  function stopVideo() { if (photoVideo) { photoVideo.pause(); photoVideo.hidden=true; photoVideo.removeAttribute('src'); photoVideo.load(); } }
   const photoError = document.querySelector('#photo-dialog-error');
   const photoPrev = document.querySelector('#photo-prev');
   const photoNext = document.querySelector('#photo-next');
@@ -96,15 +99,21 @@
 
   function renderPhoto() {
     if (!currentPost || !photoDialog) return;
-    const images = currentPost.images || [];
+    const images = mediaItems(currentPost);
     if (!images.length) return;
     currentPhotoIndex = (currentPhotoIndex + images.length) % images.length;
     photoRetry = false;
     photoError.hidden = true;
-    photoImage.hidden = false;
-    const url = images[currentPhotoIndex];
-    photoImage.alt = currentPost.title + ' - ' + (currentPhotoIndex + 1) + '번째 사진';
-    photoImage.src = url + '?v=3';
+    stopVideo();
+    const item = images[currentPhotoIndex];
+    photoImage.hidden = item.type === 'video';
+    if (item.type === 'video' && photoVideo) {
+      photoImage.removeAttribute('src');
+      photoVideo.poster = item.poster || ''; photoVideo.src = item.src; photoVideo.hidden = false;
+    } else {
+      photoImage.alt = currentPost.title + ' - ' + (currentPhotoIndex + 1) + '번째 사진';
+      photoImage.src = item.src + '?v=3';
+    }
     photoCount.textContent = (currentPhotoIndex + 1) + ' / ' + images.length;
     photoPrev.hidden = images.length < 2;
     photoNext.hidden = images.length < 2;
@@ -127,24 +136,27 @@
     currentPhotoIndex = 0;
     if (photoThumbnails) {
       photoThumbnails.replaceChildren();
-      photoThumbnails.hidden = post.images.length < 2;
-      if (post.images.length > 1) post.images.forEach((url, i) => {
+      const items = mediaItems(post);
+      photoThumbnails.hidden = items.length < 2;
+      if (items.length > 1) items.forEach((item, i) => {
         const button = document.createElement('button');
         button.type = 'button';
-        button.setAttribute('aria-label', (i + 1) + '번째 사진 보기');
+        button.setAttribute('aria-label', (i + 1) + '번째 ' + (item.type === 'video' ? '영상' : '사진') + ' 보기');
         const img = document.createElement('img');
-        img.src = url + '?v=20261125'; img.alt = ''; img.loading = 'lazy';
+        img.src = (item.poster || item.src) + '?v=20261125'; img.alt = ''; img.loading = 'lazy';
         button.append(img);
+        if (item.type === 'video') { const mark=document.createElement('span'); mark.className='video-thumb-mark'; mark.textContent='▶'; button.append(mark); }
         button.addEventListener('click', () => { currentPhotoIndex = i; renderPhoto(); });
         photoThumbnails.append(button);
       });
       photoThumbnails.scrollLeft = 0;
     }
     if (photoNote) {
-      const text = post.media_checked === false && post.media_total > 1
-        ? '원본 사진·영상 ' + post.media_total + '개 · 현재 확보된 사진 ' + post.images.length + '장'
-        : post.media_checked && post.video_count && post.media_total > 1
-        ? '사진 ' + post.images.length + '장 · 원본 영상 ' + post.video_count + '개는 인스타그램에서 확인할 수 있습니다.' : '';
+      const items = mediaItems(post);
+      const videos = items.filter(m=>m.type==='video').length;
+      const pending = post.media_checked === false && post.media_total > items.length;
+      const missing = post.media_unavailable || (post.video_count && !post.media ? post.video_count : 0);
+      const text = pending ? '현재 ' + items.length + '개 · 원본 추가 자료 확인 중' : missing ? '일부 영상은 아직 재생 파일을 확보하지 못했습니다. 원문에서 확인해 주세요.' : videos ? '사진 ' + (items.length-videos) + '장 · 영상 ' + videos + '개' : '';
       photoNote.textContent = text;
       photoNote.hidden = !text;
     }
@@ -170,6 +182,7 @@
 
   function closePhoto() {
     if (!photoDialog) return;
+    stopVideo();
     if (typeof photoDialog.close === 'function' && photoDialog.open) photoDialog.close();
     else {
       photoDialog.removeAttribute('open');
@@ -188,6 +201,7 @@
   document.querySelector('#photo-dialog-close')?.addEventListener('click', closePhoto);
   photoDialog?.addEventListener('close', () => {
     document.body.style.overflow = previousBodyOverflow;
+    stopVideo();
     currentPost = null;
     lastPhotoTrigger?.focus();
   });
@@ -203,7 +217,7 @@
     renderPhoto();
   });
   document.addEventListener('keydown', (event) => {
-    if (!photoDialog?.open || !currentPost) return;
+    if (!photoDialog?.open || !currentPost || event.target === photoVideo) return;
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
       currentPhotoIndex--;
@@ -215,15 +229,17 @@
     } else if (event.key === 'Escape') closePhoto();
   });
   photoImage?.addEventListener('error', () => {
-    if (!currentPost) return;
+    if (!currentPost || photoImage.hidden) return;
     if (!photoRetry) {
       photoRetry = true;
-      photoImage.src = currentPost.images[currentPhotoIndex] + '?v=3&retry=1';
+      photoImage.src = mediaItems(currentPost)[currentPhotoIndex].src + '?v=3&retry=1';
     } else {
       photoImage.hidden = true;
       photoError.hidden = false;
     }
   });
+
+  photoVideo?.addEventListener('error', () => { if (currentPost && !photoVideo.hidden && photoVideo.getAttribute('src')) photoError.hidden=false; });
 
   // Mobile: swipe horizontally between photos, with vertically scrollable descriptions.
   let touchStart = null;
@@ -232,7 +248,7 @@
     touchStart = { x: touch.clientX, y: touch.clientY };
   }, { passive: true });
   photoImage?.addEventListener('touchend', (event) => {
-    if (!touchStart || !currentPost || currentPost.images.length < 2) return;
+    if (!touchStart || !currentPost || mediaItems(currentPost).length < 2) return;
     const touch = event.changedTouches[0];
     const dx = touch.clientX - touchStart.x;
     const dy = touch.clientY - touchStart.y;

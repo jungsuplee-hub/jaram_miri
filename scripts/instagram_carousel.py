@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Complete already curated activity carousels from official public Instagram embeds.
 No login, private APIs or access-control workarounds. Stop on rate/permission errors.
-Videos are not downloaded; all available still-image children retain original order.
+Available public photos and MP4 videos retain original order. No access workarounds.
 """
 from __future__ import annotations
 import argparse, datetime as dt, io, json, os, re, subprocess, sys, time
@@ -27,10 +27,10 @@ def command(args,timeout=120):
     return subprocess.run(args,cwd=ROOT,check=True,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=timeout).stdout.strip()
 def valid_code(code):return isinstance(code,str) and bool(CODE.fullmatch(code))
 
-def public_get(url,*,image=False):
+def public_get(url,*,image=False,video=False):
     parsed=urlparse(url)
     host=(parsed.hostname or '').lower()
-    allowed=(host.endswith('.cdninstagram.com') or host.endswith('.fbcdn.net')) if image else host=='www.instagram.com'
+    allowed=(host.endswith('.cdninstagram.com') or host.endswith('.fbcdn.net')) if (image or video) else host=='www.instagram.com'
     if parsed.scheme!='https' or not allowed or parsed.username or parsed.password:raise ValueError('Unexpected public source host')
     with SESSION.get(url,timeout=(7,15),stream=True,allow_redirects=False) as r:
         if r.status_code in (401,403,429):raise AccessBlocked('Public source returned HTTP '+str(r.status_code))
@@ -38,7 +38,7 @@ def public_get(url,*,image=False):
         chunks=[];size=0
         for chunk in r.iter_content(65536):
             size+=len(chunk)
-            if size>(15_000_000 if image else 5_000_000):raise RuntimeError('Source response too large')
+            if size>(40_000_000 if video else 15_000_000 if image else 5_000_000):raise RuntimeError('Source response too large')
             chunks.append(chunk)
         return b''.join(chunks)
 
@@ -93,36 +93,39 @@ def complete(post):
     expected=source_count(post)
     if not edges:
         if expected>1:raise RuntimeError('Public embed returned no carousel children')
-        # Keep the already verified cover for ordinary photos or reels.
-        return {**post,'media_total':1,'media_checked':True,'video_count':int(bool(media.get('is_video')))}
-    if not isinstance(edges,list) or len(edges)>50 or len(edges)<2:raise RuntimeError('Unexpected carousel size')
-    if expected>1 and len(edges)<expected:raise RuntimeError('Public embed has fewer items than previously observed')
-    nodes=[e.get('node',{}) for e in edges]
-    if any(not isinstance(n,dict) or not valid_code(n.get('shortcode')) for n in nodes):raise RuntimeError('Invalid carousel child')
+        nodes=[media]
+    else:
+        if not isinstance(edges,list) or not 2<=len(edges)<=50:raise RuntimeError('Unexpected carousel size')
+        if expected>1 and len(edges)<expected:raise RuntimeError('Public embed has fewer items than previously observed')
+        nodes=[e.get('node',{}) for e in edges]
+    if any(not isinstance(n,dict) or not valid_code(n.get('shortcode')) for n in nodes):raise RuntimeError('Invalid child identity')
     if len({n['shortcode'] for n in nodes})!=len(nodes):raise RuntimeError('Duplicate child identity')
-    photos=[];videos=0
     cache=ROOT/'.cache/carousel-downloads';cache.mkdir(parents=True,exist_ok=True)
-    prepared=[]
+    photos=[];items=[];prepared=[];videos=0;unavailable=0
     for i,node in enumerate(nodes,1):
-        if node.get('is_video') is True:videos+=1;continue
         name=f'{code}-carousel-{i:02d}.jpg';target=cache/name
-        if target.exists():
-            with Image.open(target) as im:im.verify()
-        else:
-            blob=download_image(node)
-            tmp=target.with_suffix('.tmp')
-            try:tmp.write_bytes(blob);tmp.replace(target)
-            finally:tmp.unlink(missing_ok=True)
-        photos.append('assets/instagram/'+name)
-        prepared.append((target,ASSETS/name))
+        if not target.exists():
+            blob=download_image(node);tmp=target.with_suffix('.tmp');tmp.write_bytes(blob);tmp.replace(target)
+        with Image.open(target) as im:im.verify()
+        relative='assets/instagram/'+name
+        prepared.append((target,ASSETS/name));photos.append(relative)
+        if node.get('is_video') is True:
+            videos+=1;vname=f'{code}-carousel-{i:02d}.mp4';vtarget=cache/vname
+            try:
+                if not vtarget.exists():
+                    blob=public_get(node.get('video_url',''),video=True)
+                    if len(blob)<1024 or blob[4:8]!=b'ftyp':raise RuntimeError('Not a valid MP4 container')
+                    tmp=vtarget.with_suffix('.tmp');tmp.write_bytes(blob);tmp.replace(vtarget)
+                prepared.append((vtarget,ASSETS/vname))
+                items.append({'type':'video','src':'assets/instagram/'+vname,'poster':relative})
+            except AccessBlocked:raise
+            except Exception as exc:
+                unavailable+=1;log('Video unavailable',code,i,type(exc).__name__)
+                items.append({'type':'image','src':relative,'video_unavailable':True})
+        else:items.append({'type':'image','src':relative})
         time.sleep(.25)
-    if len(photos)+videos!=len(nodes):raise RuntimeError('Incomplete carousel')
-    if not photos:
-        # Existing representative image is a video poster, not a still photo.
-        return {**post,'media_total':len(nodes),'media_checked':True,'video_count':videos}
-    for source,destination in prepared:
-        destination.write_bytes(source.read_bytes())
-    return {**post,'images':photos,'media_total':len(nodes),'media_checked':True,'video_count':videos}
+    for source,destination in prepared:destination.write_bytes(source.read_bytes())
+    return {**post,'images':photos,'media':items,'media_total':len(nodes),'media_checked':True,'video_count':videos,'media_unavailable':unavailable}
 
 def seed(posts):
     if not CARDS.is_file():return 0
@@ -130,6 +133,11 @@ def seed(posts):
     byid={p['id']:p for p in records}
     n=0
     for p in posts:
+        if p.get('editor_images_locked'):continue
+        kind=byid.get(p['id'],{}).get('type','')
+        if kind in ('Reel','Video') and not p.get('media'):
+            if p.get('media_checked') is not False:p['media_total']=1;p['media_checked']=False;n+=1
+            continue
         if p.get('media_checked') or p.get('media_total'):continue
         kind=byid.get(p['id'],{}).get('type','')
         m=re.search(r'Photos and videos in this post:,\s*(\d+)',kind)
@@ -145,6 +153,7 @@ def publish(posts,old):
     # Stage only referenced, fully verified images; incomplete downloads stay in .cache.
     paths=['data/gallery.json','index.html','activities.html','sitemap.xml','robots.txt','llms.txt','faq.html','credits.html']
     paths+=sorted({img for p in posts if p.get('media_checked') for img in p['images'] if '-carousel-' in img})
+    paths+=sorted({m['src'] for p in posts for m in p.get('media',[]) if m.get('type')=='video'})
     command(['git','add','--',*paths],60)
     command(['git','diff','--cached','--check'])
     command(['git','-c','user.name=JARAM Profile Bot','-c','user.email=jungsuplee-hub@users.noreply.github.com','commit','-m','Complete verified Instagram activity photo carousels'],90)
@@ -154,6 +163,7 @@ def publish(posts,old):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--limit',type=int,default=8)
+    parser.add_argument('--first',default='',help='Prioritize a known curated shortcode')
     args=parser.parse_args()
     if not 1<=args.limit<=20:parser.error('limit must be 1..20')
     dirty=command(['git','status','--porcelain'])
@@ -165,8 +175,9 @@ def main():
     failures=state.get('failures',{})
     # Retry failed or unavailable posts no more than once every 24 hours.
     now=time.time()
-    pending=[(i,p) for i,p in enumerate(posts) if p.get('media_checked') is False and not p.get('editor_images_locked')]
+    pending=[(i,p) for i,p in enumerate(posts) if (p.get('media_checked') is False or p.get('media_unavailable',0)>0) and not p.get('editor_images_locked')]
     ready=[(i,p) for i,p in pending if now-failures.get(p['id'],{}).get('at',0)>=86400]
+    if args.first:ready.sort(key=lambda pair:pair[1]['id']!=args.first)
     # Back off on explicit denial or rate limiting, rather than attempting workarounds.
     if now<state.get('blocked_until',0):
         log('Public source cooldown; pending',len(pending))
@@ -177,7 +188,8 @@ def main():
         try:
             updated=complete(p)
             posts[i]=updated
-            failures.pop(p['id'],None)
+            if updated.get('media_unavailable'):failures[p['id']]={'at':now,'reason':'Video unavailable'}
+            else:failures.pop(p['id'],None)
             done+=1;added+=len(updated['images'])-len(p['images'])
             log('Verified',p['id'],'photos',len(updated['images']),'videos',updated.get('video_count',0))
         except AccessBlocked as exc:
@@ -190,7 +202,7 @@ def main():
         time.sleep(1.2)
     state['failures']=failures
     state['checked_at']=dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')
-    state['pending']=sum(source_count(p)>1 and not p.get('media_checked') for p in posts)
+    state['pending']=sum((p.get('media_checked') is False or p.get('media_unavailable',0)>0) and not p.get('editor_images_locked') for p in posts)
     STATE.parent.mkdir(parents=True,exist_ok=True)
     STATE.write_text(json.dumps(state,ensure_ascii=False,indent=2)+'\n')
     publish(posts,old)
