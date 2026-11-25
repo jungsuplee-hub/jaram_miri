@@ -338,3 +338,7 @@
 .photo-original-help{font-size:11px;line-height:1.7;color:#637a66;margin:0 0 12px}
 .photo-original-embed{display:block;width:100%;height:clamp(450px,75dvh,850px);background:white;border:1px solid #dce4d9;border-radius:5px}
 @media(max-width:720px){.photo-original-embed{height:650px}.photo-dialog-caption{font-size:13px}}
+
+/* Allow the original post to expand to its measured height. If Instagram does not report a height, preserve native scrolling. */
+.photo-original-embed{height:1000px;min-height:220px;max-height:none;overflow:auto}
+@media(max-width:720px){.photo-original-embed{height:900px}}

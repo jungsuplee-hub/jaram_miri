@@ -49,9 +49,9 @@ def page_head(home):
  head=head.replace('https://jungsuplee-hub.github.io/jaram_miri/"','https://jungsuplee-hub.github.io/jaram_miri/activities.html"')
  head=head.replace('  <link rel="stylesheet" href="main-profile.css?v=20261121-2">\n','')
  head=head.replace('href="styles.css"','href="styles.css"')
- head=head.replace('gallery.css?v=20261121-5','gallery.css?v=20261125-caption4')
- head=head.replace('script.js?v=20261121-5','script.js?v=20261125-caption4')
- head=head.replace('<script src="script.js?v=20261125-caption4" defer></script>','<link rel="stylesheet" href="activities-full.css?v=20261125-grid3">\n  <script src="script.js?v=20261125-caption4" defer></script>\n  <script src="activities-full.js?v=20261121-7" defer></script>')
+ head=head.replace('gallery.css?v=20261121-5','gallery.css?v=20261125-caption5')
+ head=head.replace('script.js?v=20261121-5','script.js?v=20261125-caption5')
+ head=head.replace('<script src="script.js?v=20261125-caption5" defer></script>','<link rel="stylesheet" href="activities-full.css?v=20261125-grid3">\n  <script src="script.js?v=20261125-caption5" defer></script>\n  <script src="activities-full.js?v=20261121-7" defer></script>')
  # Keep canonical and OpenGraph URLs correct whenever the Instagram gallery
  # renderer rebuilds the archive page from the homepage HTML head.
  head=re.sub(r'<meta\s+name="description"[^>]*>', '<meta name="description" content="자람원예치료연구소의 실제 현장 기록. 장애인 원예치료, 어르신 돌봄, 치매·인지지원, 아동·청소년 원예교육, 강사 연수 등 프로그램별 사진과 활동 내용을 확인하세요.">', head, count=1)
@@ -104,7 +104,7 @@ def main():
         '''.format(n=len(posts))
  home=home[:start]+home_body+home[end:]
  home=re.sub(r'(<script type="application/json" id="photo-gallery-data">).*?(</script>)',lambda m:m.group(1)+payload(posts)+m.group(2),home,flags=re.S)
- home=home.replace('gallery.css?v=20261121-5','gallery.css?v=20261125-caption4').replace('script.js?v=20261121-5','script.js?v=20261125-caption4')
+ home=home.replace('gallery.css?v=20261121-5','gallery.css?v=20261125-caption5').replace('script.js?v=20261121-5','script.js?v=20261125-caption5')
  if 'id="photo-dialog-source"' not in home:
   home=home.replace('        <div class="photo-dialog-caption-wrap" id="photo-dialog-caption-wrap">','        <a id="photo-dialog-source" class="photo-dialog-source" href="https://www.instagram.com/jaram_miri/" target="_blank" rel="noopener noreferrer">인스타그램 원문 보기 ↗</a>\n        <div class="photo-dialog-caption-wrap" id="photo-dialog-caption-wrap">')
  INDEX.write_text(home,encoding='utf-8')

@@ -96,6 +96,19 @@
   const originalWrap = document.querySelector('#photo-original-wrap');
   const originalFrame = document.querySelector('#photo-original-frame');
   function clearOriginal() { originalFrame?.replaceChildren(); if (originalWrap) originalWrap.hidden = true; }
+  // Instagram's public embed reports its measured content height. Accept
+  // only measurements from the currently displayed Instagram frame.
+  window.addEventListener('message', event => {
+    const frame = originalFrame?.querySelector('iframe');
+    if (!frame || event.source !== frame.contentWindow || event.origin !== 'https://www.instagram.com') return;
+    let data;
+    try { data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data; } catch (_) { return; }
+    if (data?.type !== 'MEASURE') return;
+    const height = data.details?.height;
+    if (typeof height !== 'number' || !Number.isFinite(height) || height < 100 || height > 20000) return;
+    frame.style.height = Math.ceil(height + 4) + 'px';
+    frame.dataset.measured = 'true';
+  });
   function showOriginal(post, hasCaption) {
     clearOriginal();
     if (hasCaption || !originalWrap || !originalFrame) return;
@@ -107,7 +120,8 @@
     iframe.loading = 'lazy';
     iframe.referrerPolicy = 'no-referrer';
     iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox');
-    iframe.src = 'https://www.instagram.com/p/' + match[1] + '/embed/captioned/';
+    iframe.src = 'https://www.instagram.com/p/' + match[1] + '/embed/captioned/?cr=1';
+    iframe.setAttribute('scrolling', 'auto');
     originalFrame.append(iframe);
     originalWrap.hidden = false;
   }
