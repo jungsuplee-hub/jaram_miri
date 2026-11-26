@@ -4962,11 +4962,24 @@
     "date": "2022.11.16",
     "caption": "",
     "images": [
-      "assets/instagram/ClAfzjNS5QY-archive.jpg"
+      "assets/instagram/ClAfzjNS5QY-carousel-01.jpg",
+      "assets/instagram/ClAfzjNS5QY-carousel-02.jpg"
     ],
     "source": "https://www.instagram.com/p/ClAfzjNS5QY/",
     "media_total": 2,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/instagram/ClAfzjNS5QY-carousel-01.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/ClAfzjNS5QY-carousel-02.jpg"
+      }
+    ],
+    "video_count": 0,
+    "media_unavailable": 0
   },
   {
     "id": "ClAfjaoyRWT",
@@ -4976,11 +4989,24 @@
     "date": "2022.11.16",
     "caption": "",
     "images": [
-      "assets/instagram/ClAfjaoyRWT-archive.jpg"
+      "assets/instagram/ClAfjaoyRWT-carousel-01.jpg",
+      "assets/instagram/ClAfjaoyRWT-carousel-02.jpg"
     ],
     "source": "https://www.instagram.com/p/ClAfjaoyRWT/",
     "media_total": 2,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/instagram/ClAfjaoyRWT-carousel-01.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/ClAfjaoyRWT-carousel-02.jpg"
+      }
+    ],
+    "video_count": 0,
+    "media_unavailable": 0
   },
   {
     "id": "Ck0I2kjPUTd",
@@ -4990,11 +5016,24 @@
     "date": "2022.11.11",
     "caption": "",
     "images": [
-      "assets/instagram/Ck0I2kjPUTd-archive.jpg"
+      "assets/instagram/Ck0I2kjPUTd-carousel-01.jpg",
+      "assets/instagram/Ck0I2kjPUTd-carousel-02.jpg"
     ],
     "source": "https://www.instagram.com/p/Ck0I2kjPUTd/",
     "media_total": 2,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/instagram/Ck0I2kjPUTd-carousel-01.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/Ck0I2kjPUTd-carousel-02.jpg"
+      }
+    ],
+    "video_count": 0,
+    "media_unavailable": 0
   },
   {
     "id": "Ck0HWNHD9-W",
@@ -5004,11 +5043,20 @@
     "date": "2022.11.11",
     "caption": "",
     "images": [
-      "assets/instagram/Ck0HWNHD9-W-archive.jpg"
+      "assets/instagram/Ck0HWNHD9-W-carousel-01.jpg"
     ],
     "source": "https://www.instagram.com/p/Ck0HWNHD9-W/",
     "media_total": 1,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "video",
+        "src": "assets/instagram/Ck0HWNHD9-W-carousel-01.mp4",
+        "poster": "assets/instagram/Ck0HWNHD9-W-carousel-01.jpg"
+      }
+    ],
+    "video_count": 1,
+    "media_unavailable": 0
   },
   {
     "id": "CkpZ7zhv_IZ",
@@ -5018,11 +5066,24 @@
     "date": "2022.11.07",
     "caption": "",
     "images": [
-      "assets/instagram/CkpZ7zhv_IZ-archive.jpg"
+      "assets/instagram/CkpZ7zhv_IZ-carousel-01.jpg",
+      "assets/instagram/CkpZ7zhv_IZ-carousel-02.jpg"
     ],
     "source": "https://www.instagram.com/p/CkpZ7zhv_IZ/",
     "media_total": 2,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/instagram/CkpZ7zhv_IZ-carousel-01.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/CkpZ7zhv_IZ-carousel-02.jpg"
+      }
+    ],
+    "video_count": 0,
+    "media_unavailable": 0
   },
   {
     "id": "CkhKk11vdae",
@@ -5068,11 +5129,20 @@
     "date": "2022.10.24",
     "caption": "",
     "images": [
-      "assets/instagram/CkFMXMdDi0A-archive.jpg"
+      "assets/instagram/CkFMXMdDi0A-carousel-01.jpg"
     ],
     "source": "https://www.instagram.com/p/CkFMXMdDi0A/",
     "media_total": 1,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "video",
+        "src": "assets/instagram/CkFMXMdDi0A-carousel-01.mp4",
+        "poster": "assets/instagram/CkFMXMdDi0A-carousel-01.jpg"
+      }
+    ],
+    "video_count": 1,
+    "media_unavailable": 0
   },
   {
     "id": "CkABNHCD3oq",
@@ -5082,11 +5152,20 @@
     "date": "2022.10.22",
     "caption": "",
     "images": [
-      "assets/instagram/CkABNHCD3oq-archive.jpg"
+      "assets/instagram/CkABNHCD3oq-carousel-01.jpg"
     ],
     "source": "https://www.instagram.com/p/CkABNHCD3oq/",
     "media_total": 1,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "video",
+        "src": "assets/instagram/CkABNHCD3oq-carousel-01.mp4",
+        "poster": "assets/instagram/CkABNHCD3oq-carousel-01.jpg"
+      }
+    ],
+    "video_count": 1,
+    "media_unavailable": 0
   },
   {
     "id": "Cj9xbmyPNKj",
@@ -5108,11 +5187,29 @@
     "date": "2022.10.21",
     "caption": "",
     "images": [
-      "assets/instagram/Cj9v9oGPxps-archive.jpg"
+      "assets/instagram/Cj9v9oGPxps-carousel-01.jpg",
+      "assets/instagram/Cj9v9oGPxps-carousel-02.jpg",
+      "assets/instagram/Cj9v9oGPxps-carousel-03.jpg"
     ],
     "source": "https://www.instagram.com/p/Cj9v9oGPxps/",
     "media_total": 3,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/instagram/Cj9v9oGPxps-carousel-01.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/Cj9v9oGPxps-carousel-02.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/Cj9v9oGPxps-carousel-03.jpg"
+      }
+    ],
+    "video_count": 0,
+    "media_unavailable": 0
   },
   {
     "id": "Cj45PCcvZQf",
@@ -5122,11 +5219,29 @@
     "date": "2022.10.19",
     "caption": "",
     "images": [
-      "assets/instagram/Cj45PCcvZQf-field.jpg"
+      "assets/instagram/Cj45PCcvZQf-carousel-01.jpg",
+      "assets/instagram/Cj45PCcvZQf-carousel-02.jpg",
+      "assets/instagram/Cj45PCcvZQf-carousel-03.jpg"
     ],
     "source": "https://www.instagram.com/p/Cj45PCcvZQf/",
     "media_total": 3,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/instagram/Cj45PCcvZQf-carousel-01.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/Cj45PCcvZQf-carousel-02.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/Cj45PCcvZQf-carousel-03.jpg"
+      }
+    ],
+    "video_count": 0,
+    "media_unavailable": 0
   },
   {
     "id": "Cj15rDXPPMk",
