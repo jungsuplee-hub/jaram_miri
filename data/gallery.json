@@ -11295,11 +11295,24 @@
     "date": "2020.11.27",
     "caption": "",
     "images": [
-      "assets/instagram/CIFNTsyl-ge-archive.jpg"
+      "assets/instagram/CIFNTsyl-ge-carousel-01.jpg",
+      "assets/instagram/CIFNTsyl-ge-carousel-02.jpg"
     ],
     "source": "https://www.instagram.com/p/CIFNTsyl-ge/",
     "media_total": 2,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/instagram/CIFNTsyl-ge-carousel-01.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/CIFNTsyl-ge-carousel-02.jpg"
+      }
+    ],
+    "video_count": 0,
+    "media_unavailable": 0
   },
   {
     "id": "CIE95W0FyTY",
@@ -11309,11 +11322,24 @@
     "date": "2020.11.27",
     "caption": "",
     "images": [
-      "assets/instagram/CIE95W0FyTY-archive.jpg"
+      "assets/instagram/CIE95W0FyTY-carousel-01.jpg",
+      "assets/instagram/CIE95W0FyTY-carousel-02.jpg"
     ],
     "source": "https://www.instagram.com/p/CIE95W0FyTY/",
     "media_total": 2,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/instagram/CIE95W0FyTY-carousel-01.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/CIE95W0FyTY-carousel-02.jpg"
+      }
+    ],
+    "video_count": 0,
+    "media_unavailable": 0
   },
   {
     "id": "CIAeZctFckC",
@@ -11335,11 +11361,29 @@
     "date": "2020.11.25",
     "caption": "",
     "images": [
-      "assets/instagram/CIAaeb7FJn2-archive.jpg"
+      "assets/instagram/CIAaeb7FJn2-carousel-01.jpg",
+      "assets/instagram/CIAaeb7FJn2-carousel-02.jpg",
+      "assets/instagram/CIAaeb7FJn2-carousel-03.jpg"
     ],
     "source": "https://www.instagram.com/p/CIAaeb7FJn2/",
     "media_total": 3,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/instagram/CIAaeb7FJn2-carousel-01.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/CIAaeb7FJn2-carousel-02.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/CIAaeb7FJn2-carousel-03.jpg"
+      }
+    ],
+    "video_count": 0,
+    "media_unavailable": 0
   },
   {
     "id": "CIAWsDIlQwq",
@@ -11349,11 +11393,29 @@
     "date": "2020.11.25",
     "caption": "",
     "images": [
-      "assets/instagram/CIAWsDIlQwq-archive.jpg"
+      "assets/instagram/CIAWsDIlQwq-carousel-01.jpg",
+      "assets/instagram/CIAWsDIlQwq-carousel-02.jpg",
+      "assets/instagram/CIAWsDIlQwq-carousel-03.jpg"
     ],
     "source": "https://www.instagram.com/p/CIAWsDIlQwq/",
     "media_total": 3,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/instagram/CIAWsDIlQwq-carousel-01.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/CIAWsDIlQwq-carousel-02.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/CIAWsDIlQwq-carousel-03.jpg"
+      }
+    ],
+    "video_count": 0,
+    "media_unavailable": 0
   },
   {
     "id": "CH2FUakFnys",
@@ -11375,11 +11437,24 @@
     "date": "2020.11.20",
     "caption": "",
     "images": [
-      "assets/instagram/CHzv1gglLrD-archive.jpg"
+      "assets/instagram/CHzv1gglLrD-carousel-01.jpg",
+      "assets/instagram/CHzv1gglLrD-carousel-02.jpg"
     ],
     "source": "https://www.instagram.com/p/CHzv1gglLrD/",
     "media_total": 2,
-    "media_checked": false
+    "media_checked": true,
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/instagram/CHzv1gglLrD-carousel-01.jpg"
+      },
+      {
+        "type": "image",
+        "src": "assets/instagram/CHzv1gglLrD-carousel-02.jpg"
+      }
+    ],
+    "video_count": 0,
+    "media_unavailable": 0
   },
   {
     "id": "CHwuNf3lAv2",
